@@ -20,9 +20,8 @@ General features :
 - mixture setup by mass fractions
 - calculate state points
 - calculate simple saturation tables
-- calculate a simple refrigeration cycle
+- calculate a simple refrigeration cycle and cycle with internal hx
 - rudymentary plots
-- Cycle with internal hx is under development
 - simple extensibility, anyone who knows Python 3, tkinter and thermodanamics can extend the GUI
 - reduced complexity of GUI functions with input form generator using a data structure
 
@@ -35,7 +34,6 @@ Issues :
 - only english version for now
 
 Next steps :
-- complete cycle with internal hx
 - add scaling for reference of state for entropy and enthalpy (IIR, ASHRAE, NBP ... )
 - add support for different input and output units
 - multilanguage support

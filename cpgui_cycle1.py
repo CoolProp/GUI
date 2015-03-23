@@ -369,12 +369,12 @@ class _Testdialog:
         self.Caller = master
         self.x, self.y, self.w, self.h = -1,-1,-1,-1
         #
-        self.ref='R404A'
+        self.ref='R134a'
         #
         App=cpg_cycle1(frame,self,Debug=True)
 
     def get_ref(self):
-        return 'R404A'
+        return 'R134a'
     
 def main():
     root = Tk()
