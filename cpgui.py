@@ -154,7 +154,11 @@ if __name__ == '__main__':
     root =Tk()
     # cx_freeze needs find file
     cpgui_icon=find_data_file('CoolPropLogo.ico')
-    root.call('wm', 'iconbitmap', root._w, '-default', cpgui_icon)
+    try :
+        root.call('wm', 'iconbitmap', root._w, '-default', cpgui_icon)
+    except tkinter.Tclerror :
+        pass
+        # On Ubuntu we ignore the .ico file for now
     CPGUI()
 
 
