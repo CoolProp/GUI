@@ -129,7 +129,7 @@ class cpg_cycle2(myDialog):
             tl.grid(row=inforow,rowspan=1,column=2,pady=2,sticky=W,padx=2)            
             inforow+=1
         
-        self.cycle1png=find_data_file('simplecycle.png')
+        self.cycle1png=find_data_file('cycle2.png')
         imgfile = Image.open(self.cycle1png)
         render = ImageTk.PhotoImage(imgfile)
         img = Label(self.tab1_frame, image=render)
@@ -382,7 +382,7 @@ class cpg_cycle2(myDialog):
         self.statetext+='                                        | COP                        %8.2f \n'%(self.Q0/((h2-h1)*self.mdot))
         #
         self.Text_1.delete(1.0, END)
-        self.statetext='I am not yet ready and my picture is still wrong'     
+        self.statetext='I am not yet ready'     
         self.Text_1.insert(END, self.statetext)
 
         
