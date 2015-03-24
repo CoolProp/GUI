@@ -1,6 +1,8 @@
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 #
 import sys
+import gettext
+
 if sys.version_info[0] < 3:
     from Tkinter import *
     import ttk
@@ -8,6 +10,8 @@ if sys.version_info[0] < 3:
 else:
     from tkinter import *
     from tkinter import ttk
+
+from cpgui_all import *
 
 import CoolProp
 from CoolProp.CoolProp import PropsSI,get_global_param_string
@@ -18,7 +22,7 @@ class MyDialog(myDialog):
 
     def body(self, master):
         #
-        Label(master, text="Enter Mass fraction of components in kg/kg " ).grid(row=1,column=1,columnspan=2,sticky=NW)
+        Label(master, text=_("Enter Mass fraction of components in kg/kg ") ).grid(row=1,column=1,columnspan=2,sticky=NW)
         #
         mrow=2
         self.en=[]
@@ -50,8 +54,14 @@ class cpgbasics(myDialog):
             fluids.append(mix)
         fluids.sort()
         self.Caller=Caller
+        # by module translations
+        self.language=self.Caller.get_language()
+        localedir=find_data_file('locale')
+        self.lang = gettext.translation('cpgbasics', localedir=localedir, languages=[self.language])
+        self.lang.install()
+        #
         self.dialogframe1=GridFrame
-        self.Ausgabetext=""
+        self.statetext=""
         self.tkref=StringVar()
         self.tkref.set(' ')
         self.frameborder=5
@@ -62,22 +72,22 @@ class cpgbasics(myDialog):
         #
         # Beschriftungen
         #
-        self.Label_1 = Label(self.dialogframe1,text='Refrigerant setup',font=("Arial", 14) )
+        self.Label_1 = Label(self.dialogframe1,text=_('Refrigerant setup'),font=("Arial", 14) )
         self.Label_1.grid(row=1,column=1,padx=8,columnspan=5,sticky=W,pady=5)
 
-        self.Label_2 = Label(self.dialogframe1,text='Coolprop Refrigerant',font=("Arial", 10) )
+        self.Label_2 = Label(self.dialogframe1,text=_('Coolprop Refrigerant'),font=("Arial", 10) )
         self.Label_2.grid(row=2,column=1,padx=8,sticky=W,columnspan=2)
 
-        self.Label_3 = Label(self.dialogframe1,text='Chosen Refrigerant :',font=("Arial", 10) )
+        self.Label_3 = Label(self.dialogframe1,text=_('Chosen Refrigerant :'),font=("Arial", 10) )
         self.Label_3.grid(row=4,column=1,padx=8,sticky=W,pady=4)
 
-        self.Label_4 = Label(self.dialogframe1,text='Refprop Refrigerant',font=("Arial", 10) )
+        self.Label_4 = Label(self.dialogframe1,text=_('Refprop Refrigerant'),font=("Arial", 10) )
         self.Label_4.grid(row=2,column=2,padx=8,sticky=W,columnspan=2)
          
         self.reflabel = Label(self.dialogframe1,textvariable=self.tkref,font=("Arial", 10) )
         self.reflabel.grid(row=4,column=2,padx=8,sticky=W,pady=4,columnspan=3)
 
-        self.Label_5 = Label(self.dialogframe1,text='Use Refprop fluids for Refprop mixtures and Coolprop fluids for HEOS mixtures. Choose backend later',font=("Arial", 12) )
+        self.Label_5 = Label(self.dialogframe1,text=_('Use Refprop fluids for Refprop mixtures and Coolprop fluids for HEOS mixtures. Choose backend later'),font=("Arial", 12) )
         self.Label_5.grid(row=5,column=1,padx=8,sticky=W,pady=4,columnspan=7)
         #
         # Coolprop Refrigerants
@@ -127,21 +137,21 @@ class cpgbasics(myDialog):
         self.Text_1.pack(side=LEFT, fill=BOTH, expand=1)
         self.Text_1_frame.grid(row=3,column=3,columnspan=3,padx=2,sticky=W+E,pady=4)
         self.Text_1.delete(1.0, END)
-        #self.Ausgabetext=KM.KM_Info(self.refrigerant)
-        self.Text_1.insert(END, self.Ausgabetext)
+        #self.statetext=KM.KM_Info(self.refrigerant)
+        self.Text_1.insert(END, self.statetext)
         #
-        self.BT1_Frame=LabelFrame(self.dialogframe1 ,relief=GROOVE,bd=self.frameborder,text='Mixture components',font=("Arial", 10))
+        self.BT1_Frame=LabelFrame(self.dialogframe1 ,relief=GROOVE,bd=self.frameborder,text=_('Mixture components'),font=("Arial", 10))
         self.BT1_Frame.grid(row=6,column=1,sticky=W,padx=5,pady=5,columnspan=1,rowspan=4)
         #
-        self.Button_addmix = Button(self.BT1_Frame,text='Add fluid to mixture',font=("Arial", 10, "bold") )
+        self.Button_addmix = Button(self.BT1_Frame,text=_('Add fluid to mixture'),font=("Arial", 10, "bold") )
         self.Button_addmix.grid(row=1,rowspan=1,column=1,pady=5,sticky=W,padx=8)
         self.Button_addmix.bind("<ButtonRelease-1>", self.AddToMix)
         #
-        self.Button_delmix = Button(self.BT1_Frame,text='Delete mixture' ,font=("Arial", 10, "bold"))
+        self.Button_delmix = Button(self.BT1_Frame,text=_('Delete mixture') ,font=("Arial", 10, "bold"))
         self.Button_delmix.grid(row=2,rowspan=1,column=1,pady=5,sticky=W,padx=8)
         self.Button_delmix.bind("<ButtonRelease-1>", self.DeleteMix)
         #
-        self.Button_setmix = Button(self.BT1_Frame,text='Define mixture' ,font=("Arial", 10, "bold"))
+        self.Button_setmix = Button(self.BT1_Frame,text=_('Define mixture') ,font=("Arial", 10, "bold"))
         self.Button_setmix.grid(row=3,rowspan=1,column=1,pady=5,sticky=W,padx=8)
         self.Button_setmix.bind("<ButtonRelease-1>", self.SetMix)
         #
@@ -154,13 +164,13 @@ class cpgbasics(myDialog):
         self.Text_3.pack(side=LEFT, fill=BOTH, expand=1)
         self.Text_2_frame.grid(row=6,column=2,columnspan=1,rowspan=7,padx=2,sticky=W+E,pady=4)
         self.Text_3.delete(1.0, END)
-        #self.Ausgabetext=KM.KM_Info(self.refrigerant)
+        #self.statetext=KM.KM_Info(self.refrigerant)
         self.Text_3.insert(END,' ')    
         #
         self.mixframe2 = Frame( self.dialogframe1 )
         self.mixframe2.grid(row=7,column=2,columnspan=2,padx=2,sticky=W+E,pady=4)
         #
-        self.RG1_Frame=LabelFrame(self.dialogframe1 ,relief=GROOVE,bd=self.frameborder,text='Choose mixture backend',font=("Arial", 10))
+        self.RG1_Frame=LabelFrame(self.dialogframe1 ,relief=GROOVE,bd=self.frameborder,text=_('Choose mixture backend'),font=("Arial", 10))
         self.RG1_Frame.grid(row=10,column=1,sticky=W,padx=5,pady=5,columnspan=1,rowspan=3)
         
         self.RG1_StringVar = StringVar()
@@ -206,7 +216,7 @@ class cpgbasics(myDialog):
 
     def ShowMix(self):
         #
-        self.mixframe= LabelFrame(self.dialogframe1,relief=GROOVE,bd=self.frameborder,text='Mixture composition',font=("Arial", 10))
+        self.mixframe= LabelFrame(self.dialogframe1,relief=GROOVE,bd=self.frameborder,text=_('Mixture composition'),font=("Arial", 10))
         self.mixframe.grid(row=7,column=3,padx=8,sticky=W,pady=4,columnspan=1)
         self.mix_tk_list=[]
         mixrow=1
@@ -238,7 +248,7 @@ class cpgbasics(myDialog):
     def Listbox_2_Click(self, event):
         #
         index=self.Listbox_2.curselection()
-        if self.Listbox_2.get(index)=='Refprop not found':
+        if self.Listbox_2.get(index)==_('Refprop not found'):
             self.ref='R134a'
         else :
             self.ref=('REFPROP::'+self.Listbox_2.get(index))
@@ -251,13 +261,13 @@ class cpgbasics(myDialog):
         if self.initcomplete :
             self.ref=self.Caller.get_ref()
             self.Text_1.delete(1.0, END)
-            self.Ausgabetext= 'Coolprop Version     : %s     \n'%str(CoolProp.__version__)
-            self.Ausgabetext+='Coolprop gitrevision : %s     \n'%str(CoolProp.__gitrevision__)
-            self.Ausgabetext+='Refrigerant          : %s     \n'%str(self.ref)
+            self.statetext= _('Coolprop Version     : %s     \n')%str(CoolProp.__version__)
+            self.statetext+=_('Coolprop gitrevision : %s     \n')%str(CoolProp.__gitrevision__)
+            self.statetext+=_('Refrigerant          : %s     \n')%str(self.ref)
     
     
-            self.Ausgabetext+=self.get_GWP100()
-            self.Ausgabetext+=self.get_ODP()
+            self.statetext+=self.get_GWP100()
+            self.statetext+=self.get_ODP()
             molmassstring=''
             try :
                 molmass=PropsSI('M',self.ref)
@@ -265,8 +275,8 @@ class cpgbasics(myDialog):
                 molmassstring='  N/A '
             if molmassstring=='' :
                 molmassstring='%6.2f'%(molmass*1000)
-            self.Ausgabetext+='Molar mass           :%s  \n'%molmassstring
-            self.Text_1.insert(END,self.Ausgabetext)
+            self.statetext+=_('Molar mass           :%s  \n')%molmassstring
+            self.Text_1.insert(END,self.statetext)
 
     def RG1_StringVar_Callback(self, varName, index, mode):
         #
@@ -310,7 +320,7 @@ class cpgbasics(myDialog):
         if ODP == -1 or ODP==0 :
             ODP1='ODP                  : N/A    \n'
         else :
-            ODP1='Ozone depleting Substance !\nODP                  : %2.3F     \n'%ODP
+            ODP1=_('Ozone depleting Substance !\nODP                  : %2.3F     \n')%ODP
         return ODP1
     
 class _Testdialog:
@@ -329,7 +339,10 @@ class _Testdialog:
     def set_ref(self,ref):
         self.ref=ref
         self.tkref.set(ref)
-
+    
+    def get_language(self):
+        return 'de'
+    
     def get_ref(self):
         return 'R134a'
     

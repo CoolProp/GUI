@@ -1,0 +1,83 @@
+# -*- coding: utf-8 -*-
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2015-03-24 13:42+Mitteleuropäische Zeit\n"
+"PO-Revision-Date: 2015-03-24 15:41+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Last-Translator: Reiner Mayers\n"
+"Language-Team: \n"
+"Language: de\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: cpgui.py:74
+msgid "File"
+msgstr "Datei"
+
+#: cpgui.py:76
+msgid "Quit"
+msgstr "Verlassen"
+
+#: cpgui.py:79
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: cpgui.py:81
+msgid "English"
+msgstr "Englisch"
+
+#: cpgui.py:82
+msgid "German"
+msgstr "Deutsch"
+
+#: cpgui.py:85
+msgid "Help"
+msgstr "Hilfe"
+
+#: cpgui.py:86
+msgid "About..."
+msgstr "Über"
+
+#: cpgui.py:107
+msgid "Select fluid"
+msgstr "Fluid auswählen"
+
+#: cpgui.py:110
+msgid "State Point"
+msgstr "Zustandspunkt"
+
+#: cpgui.py:113 cpgui.py:183
+msgid "Saturation table"
+msgstr "Sättigungstafel"
+
+#: cpgui.py:116
+msgid "Diagrams"
+msgstr "Diagramme"
+
+#: cpgui.py:119
+msgid "SimpleCycle"
+msgstr "Kältekreislauf"
+
+#: cpgui.py:123
+msgid "Cycle with heat exchanger"
+msgstr "Kreislauf mit innerem Wärmeübertrager"
+
+#: cpgui.py:137
+msgid "About"
+msgstr "Über"
+
+#: cpgui.py:154
+msgid "Language changed to %s "
+msgstr "Sprache auf %s gewechselt"
+
+#: cpgui.py:154
+msgid "Restart GUI for language change to take effect!"
+msgstr "Zum ändern der Sprache Programm jetzt neu starten"

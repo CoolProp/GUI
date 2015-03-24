@@ -1,0 +1,167 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2015-03-24 12:58+Mitteleuropäische Zeit\n"
+"PO-Revision-Date: 2015-03-24 13:02+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1252\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"X-Generator: Poedit 1.7.5\n"
+
+#: cpgui_cycle2.py:43
+msgid "Evaporator"
+msgstr ""
+
+#: cpgui_cycle2.py:47 cpgui_cycle2.py:56
+msgid "Temperature"
+msgstr ""
+
+#: cpgui_cycle2.py:48
+msgid "Superheat"
+msgstr ""
+
+#: cpgui_cycle2.py:49 cpgui_cycle2.py:58
+msgid "Pressure drop"
+msgstr ""
+
+#: cpgui_cycle2.py:50
+msgid "Capacity"
+msgstr ""
+
+#: cpgui_cycle2.py:52
+msgid "Condenser"
+msgstr ""
+
+#: cpgui_cycle2.py:57
+msgid "Subcooling"
+msgstr ""
+
+#: cpgui_cycle2.py:61
+msgid "Suction line SL / Discharge line DL"
+msgstr ""
+
+#: cpgui_cycle2.py:65
+msgid "SL superheat"
+msgstr ""
+
+#: cpgui_cycle2.py:66
+msgid "SL Pressure drop"
+msgstr ""
+
+#: cpgui_cycle2.py:67
+msgid "DL Temperature loss"
+msgstr ""
+
+#: cpgui_cycle2.py:68
+msgid "DL Pressure drop"
+msgstr ""
+
+#: cpgui_cycle2.py:70
+msgid "Compressor"
+msgstr ""
+
+#: cpgui_cycle2.py:74
+msgid "Isentropic efficiency"
+msgstr ""
+
+#: cpgui_cycle2.py:76
+msgid "Internal heat exchanger"
+msgstr ""
+
+#: cpgui_cycle2.py:81
+msgid "Gas pressure drop"
+msgstr ""
+
+#: cpgui_cycle2.py:93
+msgid "End of SL / compressor intake"
+msgstr ""
+
+#: cpgui_cycle2.py:94
+msgid "Isentropic compression"
+msgstr ""
+
+#: cpgui_cycle2.py:95
+msgid "Real compression"
+msgstr ""
+
+#: cpgui_cycle2.py:96
+msgid "Condenser inlet"
+msgstr ""
+
+#: cpgui_cycle2.py:97
+msgid "Dewpoint inside condenser"
+msgstr ""
+
+#: cpgui_cycle2.py:98
+msgid "Average between 3'' and 4'"
+msgstr ""
+
+#: cpgui_cycle2.py:99
+msgid "Bubblepoint inside condenser"
+msgstr ""
+
+#: cpgui_cycle2.py:100
+msgid "Exit condenser"
+msgstr ""
+
+#: cpgui_cycle2.py:101 cpgui_cycle2.py:106
+msgid "Exit Heat exchanger"
+msgstr ""
+
+#: cpgui_cycle2.py:102
+msgid "Evaporator entry"
+msgstr ""
+
+#: cpgui_cycle2.py:103
+msgid "Average between 6 and 7''"
+msgstr ""
+
+#: cpgui_cycle2.py:104
+msgid "Dewpoint inside evaporator"
+msgstr ""
+
+#: cpgui_cycle2.py:105
+msgid "Exit evaporator / Intake heat exchanger"
+msgstr ""
+
+#: cpgui_cycle2.py:110
+msgid "Cycle inputs"
+msgstr ""
+
+#: cpgui_cycle2.py:112
+msgid "Cycle outputs"
+msgstr ""
+
+#: cpgui_cycle2.py:120
+msgid " Calculate "
+msgstr ""
+
+#: cpgui_cycle2.py:133
+msgid "Cycle information"
+msgstr ""
+
+#: cpgui_cycle2.py:135
+msgid "Statepoints"
+msgstr ""
+
+#: cpgui_cycle2.py:153
+msgid "Output table"
+msgstr ""
+
+#: cpgui_cycle2.py:225
+msgid ""
+"Simple DX cycle statepoint Table for %s\n"
+"\n"
+msgstr ""
+
+#: cpgui_cycle2.py:226
+msgid " Point  |   t    |   p     |      v     |    h    |    s    |    x    | Description \n"
+msgstr ""

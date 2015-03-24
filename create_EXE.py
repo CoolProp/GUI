@@ -1,8 +1,8 @@
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 """
 Created on Mon 02 of Feb 10:42:17 2015
 
-Build script zum erstellen einer lauffähigen .exe
+Build script zum erstellen einer lauffï¿½higen .exe
 
 @author: mayers
 """
@@ -11,6 +11,7 @@ from cx_Freeze import setup, Executable
 import matplotlib
 import site
 import sys
+import gettext
 
 site_packages_dir=site.getsitepackages()
 
@@ -30,6 +31,9 @@ build_exe_options = { 'packages': ['scipy'],
                                         '_ufuncs.pyd'),
                                         "CoolPropLogo.ico",
                                         "simplecycle.png",
+                                        "cycle2.png",
+                                        "cpgui.ini",
+                                        "locale",
                                         (matplotlib.get_data_path(),
                                         "mpl-data")]
                      }
