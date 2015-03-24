@@ -1,0 +1,70 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2015-03-24 16:36+Mitteleuropäische Zeit\n"
+"PO-Revision-Date: 2015-03-24 16:38+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Last-Translator: Reiner Mayers\n"
+"Language-Team: \n"
+"Language: de\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: cpgui_sattable.py:40
+msgid "Refrigerant          : %10s     \n"
+msgstr "Kältemittel          : %10s     \n"
+
+#: cpgui_sattable.py:41
+msgid "Saturated Table calculation for %10s \n"
+msgstr "Sättigungsdampftafel für  %10s \n"
+
+#: cpgui_sattable.py:47
+msgid "Pressure        [Pa]"
+msgstr "Druck            [Pa]"
+
+#: cpgui_sattable.py:48
+msgid "Temperature     [K]"
+msgstr "Temperatur       [K]"
+
+#: cpgui_sattable.py:50
+msgid "Pure fluid"
+msgstr "Reinstoff"
+
+#: cpgui_sattable.py:51
+msgid "Mixture"
+msgstr "Gemisch"
+
+#: cpgui_sattable.py:57
+msgid "Select order type and input Values"
+msgstr "Wählen sie die Ordnungsgrößen und Werte"
+
+#: cpgui_sattable.py:60
+msgid "Fluid data"
+msgstr "Fluid daten"
+
+#: cpgui_sattable.py:63
+msgid "Select order type"
+msgstr "Ordnungsgröße auswählen"
+
+#: cpgui_sattable.py:65
+msgid "        min value"
+msgstr "min. Wert"
+
+#: cpgui_sattable.py:67
+msgid "        max value"
+msgstr "max. Wert"
+
+#: cpgui_sattable.py:69
+msgid "        step size"
+msgstr "Schrittweite"
+
+#: cpgui_sattable.py:102
+msgid "Calculate"
+msgstr "Berechnen"
