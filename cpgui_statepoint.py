@@ -123,7 +123,6 @@ class cpgStatepoint(myDialog):
         self.Text_1.pack(side=LEFT, fill=BOTH, expand=1)
         self.Text_1_frame.grid(row=1,column=1,columnspan=1,padx=2,sticky=W+E,pady=4)
         self.Text_1.delete(1.0, END)
-        #self.Ausgabetext=KM.KM_Info(self.refrigerant)
         self.Text_1.insert(END, self.statetext)
         
     def CBOX1_StringVar_Callback(self, varName, index, mode):

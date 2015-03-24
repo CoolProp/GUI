@@ -129,9 +129,10 @@ class CPGUI(Frame):
             self.cpgNewClass=cpg_cycle2(self.dialogframe6,self)
             '''
             How to add a tab :
-            Copy a class file like cpgui_cycle1.py to a new name
+            Copy a class file like cpgui_SatTable.py to a new name
             Create your class and actions in there
             The Update method can be called on selection of the tab, see tabChangedEvent below
+            Create translation .pot file e.g. python \Py34_64\Tools\i18n\pygettext.py -d de -o cpgSatTable.pot cpgui_sattable.py
             '''
             
             self.notebook.bind_all("<<NotebookTabChanged>>", self.tabChangedEvent)

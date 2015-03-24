@@ -115,7 +115,7 @@ class cpgSatTable(myDialog):
         self.Text_1.pack(side=LEFT, fill=BOTH, expand=1)
         self.Text_1_frame.grid(row=1,column=1,columnspan=1,padx=2,sticky=W+E,pady=4)
         self.Text_1.delete(1.0, END)
-        #self.Ausgabetext=KM.KM_Info(self.refrigerant)
+        #self.statetext=KM.KM_Info(self.refrigerant)
         self.Text_1.insert(END, self.statetext)
         #
         self.initcomplete=True
@@ -202,11 +202,11 @@ class cpgSatTable(myDialog):
                 
             self.Text_1.delete(1.0, END)
             #
-            self.Ausgabetext= 'Coolprop Version     : %s     \n'%str(CoolProp.__version__)
-            self.Ausgabetext+='Coolprop gitrevision : %s     \n'%str(CoolProp.__gitrevision__)
-            self.Ausgabetext+=self.kmstring%str(self.ref)
+            self.statetext= 'Coolprop Version     : %s     \n'%str(CoolProp.__version__)
+            self.statetext+='Coolprop gitrevision : %s     \n'%str(CoolProp.__gitrevision__)
+            self.statetext+=self.kmstring%str(self.ref)
     
-            self.Text_1.insert(END,self.Ausgabetext)
+            self.Text_1.insert(END,self.statetext)
             
     def search_Tmax(self):
         try :

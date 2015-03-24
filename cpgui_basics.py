@@ -61,7 +61,7 @@ class cpgbasics(myDialog):
         self.lang.install()
         #
         self.dialogframe1=GridFrame
-        self.Ausgabetext=""
+        self.statetext=""
         self.tkref=StringVar()
         self.tkref.set(' ')
         self.frameborder=5
@@ -137,8 +137,8 @@ class cpgbasics(myDialog):
         self.Text_1.pack(side=LEFT, fill=BOTH, expand=1)
         self.Text_1_frame.grid(row=3,column=3,columnspan=3,padx=2,sticky=W+E,pady=4)
         self.Text_1.delete(1.0, END)
-        #self.Ausgabetext=KM.KM_Info(self.refrigerant)
-        self.Text_1.insert(END, self.Ausgabetext)
+        #self.statetext=KM.KM_Info(self.refrigerant)
+        self.Text_1.insert(END, self.statetext)
         #
         self.BT1_Frame=LabelFrame(self.dialogframe1 ,relief=GROOVE,bd=self.frameborder,text=_('Mixture components'),font=("Arial", 10))
         self.BT1_Frame.grid(row=6,column=1,sticky=W,padx=5,pady=5,columnspan=1,rowspan=4)
@@ -164,7 +164,7 @@ class cpgbasics(myDialog):
         self.Text_3.pack(side=LEFT, fill=BOTH, expand=1)
         self.Text_2_frame.grid(row=6,column=2,columnspan=1,rowspan=7,padx=2,sticky=W+E,pady=4)
         self.Text_3.delete(1.0, END)
-        #self.Ausgabetext=KM.KM_Info(self.refrigerant)
+        #self.statetext=KM.KM_Info(self.refrigerant)
         self.Text_3.insert(END,' ')    
         #
         self.mixframe2 = Frame( self.dialogframe1 )
@@ -261,13 +261,13 @@ class cpgbasics(myDialog):
         if self.initcomplete :
             self.ref=self.Caller.get_ref()
             self.Text_1.delete(1.0, END)
-            self.Ausgabetext= _('Coolprop Version     : %s     \n')%str(CoolProp.__version__)
-            self.Ausgabetext+=_('Coolprop gitrevision : %s     \n')%str(CoolProp.__gitrevision__)
-            self.Ausgabetext+=_('Refrigerant          : %s     \n')%str(self.ref)
+            self.statetext= _('Coolprop Version     : %s     \n')%str(CoolProp.__version__)
+            self.statetext+=_('Coolprop gitrevision : %s     \n')%str(CoolProp.__gitrevision__)
+            self.statetext+=_('Refrigerant          : %s     \n')%str(self.ref)
     
     
-            self.Ausgabetext+=self.get_GWP100()
-            self.Ausgabetext+=self.get_ODP()
+            self.statetext+=self.get_GWP100()
+            self.statetext+=self.get_ODP()
             molmassstring=''
             try :
                 molmass=PropsSI('M',self.ref)
@@ -275,8 +275,8 @@ class cpgbasics(myDialog):
                 molmassstring='  N/A '
             if molmassstring=='' :
                 molmassstring='%6.2f'%(molmass*1000)
-            self.Ausgabetext+=_('Molar mass           :%s  \n')%molmassstring
-            self.Text_1.insert(END,self.Ausgabetext)
+            self.statetext+=_('Molar mass           :%s  \n')%molmassstring
+            self.Text_1.insert(END,self.statetext)
 
     def RG1_StringVar_Callback(self, varName, index, mode):
         #
