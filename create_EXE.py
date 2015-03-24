@@ -31,6 +31,9 @@ build_exe_options = { 'packages': ['scipy'],
                                         '_ufuncs.pyd'),
                                         "CoolPropLogo.ico",
                                         "simplecycle.png",
+                                        "cycle2.png",
+                                        "cpgui.ini",
+                                        "locale",
                                         (matplotlib.get_data_path(),
                                         "mpl-data")]
                      }
