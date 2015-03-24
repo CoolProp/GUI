@@ -1,8 +1,8 @@
-# -*- coding: latin-1 -*- 
+# -*- coding: utf-8 -*- 
 #
 import matplotlib
 matplotlib.use('TkAgg')
-
+import gettext
 import sys
 if sys.version_info[0] < 3:
     from Tkinter import *
@@ -33,7 +33,13 @@ class cpgDiagram(myDialog):
         #
         self.dialogframe=GridFrame
         #
-        self.Caller=Caller#
+        self.Caller=Caller
+        # by module translations
+        self.language=self.Caller.get_language()
+        localedir=find_data_file('locale')
+        self.lang = gettext.translation('cpgDiagram', localedir=localedir, languages=[self.language])
+        self.lang.install()
+        #
         self.ref=Caller.get_ref()
         #
         self.frameborder=5
@@ -50,10 +56,10 @@ class cpgDiagram(myDialog):
         self.labelfontsize=10
         self.tickfontsize=8
         #
-        self.ObenFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text='Available Diagrams')
+        self.ObenFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text=_('Available Diagrams'))
         self.ObenFrame.grid(row=1,column=1)
         #
-        self.UntenFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text='Diagramm')
+        self.UntenFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text=_('Diagram'))
         self.UntenFrame.grid(row=1,column=2)
         #
         #self.l1=Label(self.ObenFrame,text='Text',font=("Arial", 12) )
@@ -198,8 +204,8 @@ class cpgDiagram(myDialog):
             except ValueError :
                 self.plot_err()
             # Overwrite ugly labels
-            self.ax.set_ylabel('Pressure in kPa',color=self.p_color,fontsize=self.labelfontsize)
-            self.ax.set_xlabel('Specific enthalpy in kJ/kg',color=self.h_color,fontsize=self.labelfontsize)
+            self.ax.set_ylabel(_('Pressure in kPa'),color=self.p_color,fontsize=self.labelfontsize)
+            self.ax.set_xlabel(_('Specific enthalpy in kJ/kg'),color=self.h_color,fontsize=self.labelfontsize)
             # Show values of Mousepointer
             self.ax.format_coord = self.format_ph_coord
             #
@@ -279,7 +285,7 @@ class cpgDiagram(myDialog):
     def plot_err(self):
         self.ax.plot([0,1],[0,1],'r')
         self.ax.plot([0,1],[1,0],'r')
-        self.ax.text(0.1,0.5,'Only Coolprop single components can be used for plots!')
+        self.ax.text(0.1,0.5,_('Only Coolprop single components can be used for plots!'))
             
     def Update(self):
         #
@@ -306,6 +312,8 @@ class _Testdialog:
 
     def get_ref(self):
         return 'R134a'
+    def get_language(self):
+        return 'de'
     
 def main():
     root = Tk()

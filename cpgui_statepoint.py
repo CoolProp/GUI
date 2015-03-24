@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Created on Fri Feb 27 2015 16:45
 
@@ -6,7 +7,7 @@ Created on Fri Feb 27 2015 16:45
 #
 import matplotlib
 matplotlib.use('TkAgg')
-
+import gettext
 import sys
 if sys.version_info[0] < 3:
     from Tkinter import *
@@ -26,23 +27,45 @@ class cpgStatepoint(myDialog):
         #
         self.dialogframe=GridFrame
         #
-        self.Caller=Caller#
+        self.Caller=Caller#        self.Caller=Caller
+        # by module translations
+        self.language=self.Caller.get_language()
+        print('Statepoint lang : ',self.language)
+        localedir=find_data_file('locale')
+        self.lang = gettext.translation('cpgStatepoint', localedir=localedir, languages=[self.language])
+        self.lang.install()
+        #
         self.ref=Caller.get_ref()
         #
         self.frameborder=5
         #
-        self.choices=('Density         [kg/m*m*m]', 'Pressure        [Pa]', 'Temperature     [K]', 'Enthalpy        [J/kg]',
-                      'Entropy         [J/kg/K]', 'Internal Energy [J/kg]', 'Vapour Quality  [kg/kg]')
+        self.choices=(  _('Density         [kg/m³]'), 
+                        _('Pressure        [Pa]'), 
+                        _('Temperature     [K]'), 
+                        _('Enthalpy        [J/kg]'),
+                        _('Entropy         [J/kg/K]'), 
+                        _('Internal Energy [J/kg]'), 
+                        _('Vapour Quality  [kg/kg]')
+                        )
         self.symbols=('D','P','T','H','S','GMASS','Q')
-        self.ObenFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text='Select entry txpes and input Values',font=("Arial", 12))
+        #
+        self.var_ref=_('Statepoint calculation for %12s \n\n')
+        self.var_T=_('Temperature       %16.4f K  \n                  %16.4f degC  \n')
+        self.var_p=_('Pressure          %16.4f Pa \n')
+        self.var_Q=_('Quality                   %s \n')
+        self.var_D=_('Density           %16.4f kg/m*m*m \n')
+        self.var_H=_('Enthalpy          %16.4f J/kg \n')
+        self.var_S=_('Entropy           %16.4f J/kg/K \n')
+        #
+        self.ObenFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text=_('Select entry txpes and input Values'),font=("Arial", 12))
         self.ObenFrame.grid(row=1,column=1)
         #
-        self.UntenFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text='Fluid data',font=("Arial", 12))
+        self.UntenFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text=_('Fluid data'),font=("Arial", 12))
         self.UntenFrame.grid(row=2,column=1)
         #
-        self.Input1Label1 = Label(self.ObenFrame,text='Select input type #1',font=("Arial", 12) )
+        self.Input1Label1 = Label(self.ObenFrame,text=_('Select input type #1'),font=("Arial", 12) )
         self.Input1Label1.grid(row=1,column=1,padx=8,sticky=W,pady=5)
-        self.Input1Label2 = Label(self.ObenFrame,text='Enter input Value #1',font=("Arial", 12) )
+        self.Input1Label2 = Label(self.ObenFrame,text=_('Enter input Value #1'),font=("Arial", 12) )
         self.Input1Label2.grid(row=1,column=3,padx=8,sticky=W,pady=5)
         #
         self.Input1Entry1 = Entry(self.ObenFrame,width="15",font=("Arial", 12))
@@ -53,7 +76,7 @@ class cpgStatepoint(myDialog):
         self.Input1Entry1_StringVar_traceName = self.Input1Entry1_StringVar.trace_variable("w", self.Input1Entry1_StringVar_Callback)
         #
         self.CBOX1_StringVar = StringVar()
-        self.CBOX1_StringVar.set('Pressure        [Pa]')
+        self.CBOX1_StringVar.set(_('Pressure        [Pa]'))
         self.CBOX1_StringVar_traceName = self.CBOX1_StringVar.trace_variable("w",self.CBOX1_StringVar_Callback)
         
         self.CBOX1 = ttk.Combobox(self.ObenFrame, textvariable=self.CBOX1_StringVar,font=("Arial", 12))
@@ -63,9 +86,9 @@ class cpgStatepoint(myDialog):
         #
         #
         #
-        self.Input2Label1 = Label(self.ObenFrame,text='Select input type #2',font=("Arial", 12) )
+        self.Input2Label1 = Label(self.ObenFrame,text=_('Select input type #2'),font=("Arial", 12) )
         self.Input2Label1.grid(row=2,column=1,padx=8,sticky=W,pady=5)
-        self.Input2Label2 = Label(self.ObenFrame,text='Enter input Value #2',font=("Arial", 12) )
+        self.Input2Label2 = Label(self.ObenFrame,text=_('Enter input Value #2'),font=("Arial", 12) )
         self.Input2Label2.grid(row=2,column=3,padx=8,sticky=W,pady=5)
         #
         self.Input2Entry1 = Entry(self.ObenFrame,width="15",font=("Arial", 12))
@@ -76,7 +99,7 @@ class cpgStatepoint(myDialog):
         self.Input2Entry1_StringVar_traceName = self.Input2Entry1_StringVar.trace_variable("w", self.Input2Entry1_StringVar_Callback)
         #
         self.CBOX2_StringVar = StringVar()
-        self.CBOX2_StringVar.set('Pressure        [Pa]')
+        self.CBOX2_StringVar.set(_('Pressure        [Pa]'))
         self.CBOX2_StringVar_traceName = self.CBOX2_StringVar.trace_variable("w",self.CBOX2_StringVar_Callback)
         
         self.CBOX2 = ttk.Combobox(self.ObenFrame, textvariable=self.CBOX2_StringVar,font=("Arial", 12))
@@ -84,7 +107,7 @@ class cpgStatepoint(myDialog):
         self.CBOX2.grid(column=2,row=2,padx=8,sticky=W,pady=5)
         self.CBOX2.current(2)
         #
-        self.Button_1 = Button(self.ObenFrame,text='Calculate' )
+        self.Button_1 = Button(self.ObenFrame,text=_('Calculate' ))
         self.Button_1.grid(row=1,rowspan=2,column=6,pady=5,sticky=W,padx=8)
         self.Button_1.bind("<ButtonRelease-1>", self.calculate)
         #
@@ -132,17 +155,43 @@ class cpgStatepoint(myDialog):
         T1,P1,Q1,D1,H1,S1=PropsSI(['T','P','Q','D','H','S'],Input1Code,Input1Value,Input2Code,Input2Value,self.ref)
         #
         Phase=CoolProp.CoolProp.PhaseSI(Input1Code,Input1Value,Input2Code,Input2Value,self.ref)
-        self.statetext='Statepoint calculation for %s \n\n'%self.ref
-        self.statetext+=    u'Temperature       %16.4f K  \n                  %16.4f degC  \n'%(T1,T1-273.15)
-        self.statetext+=    u'Pressure          %16.4f Pa \n'%P1
-        self.statetext+=    u'Quality                   %s \n'%(Phase)
-        self.statetext+=    u'Density           %16.4f kg/m*m*m \n'%D1
-        self.statetext+=    u'Enthalpy          %16.4f J/kg \n'%H1
-        self.statetext+=    u'Entropy           %16.4f J/kg/K \n'%S1
+        #
+        self.statetext=self.var_ref%self.ref
+        self.statetext+=self.var_T%(T1,T1-273.15)
+        self.statetext+=self.var_p%P1
+        self.statetext+=self.var_Q%(Phase)
+        self.statetext+=self.var_D%D1
+        self.statetext+=self.var_H%H1
+        self.statetext+=self.var_S%S1
         self.Text_1.insert(END, self.statetext)
         
         def Update(self):
             #
             pass
 
+class _Testdialog:
+    
+    def __init__(self, master):
+        frame = Frame(master)
+        frame.pack()
+        self.Caller = master
+        self.x, self.y, self.w, self.h = -1,-1,-1,-1
+        #
+        self.ref='R134a'
+        #
+        App=cpgStatepoint(frame,self)
+
+    def get_ref(self):
+        return 'R134a'
+    def get_language(self):
+        return 'de'
+    
+def main():
+    root = Tk()
+    
+    app = _Testdialog(root)
+    root.mainloop()
+    
+if __name__ == '__main__':
+    main()  
     

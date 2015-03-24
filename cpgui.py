@@ -1,10 +1,17 @@
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 #
 from __future__ import print_function
 import sys
 
+from cpgui_all import *
+import configparser
+import gettext
+
+
+
 import numpy as np
-import cpgui_cycle1
+from winnt import LANG_AFRIKAANS
+
 np.seterr(divide='ignore', invalid='ignore')
 #
 if sys.version_info[0] < 3:
@@ -19,7 +26,7 @@ else:
 
 import CoolProp
 
-from cpgui_all import *
+
 from cpgui_basics import cpgbasics
 from cpgui_statepoint import cpgStatepoint
 from cpgui_diagram import cpgDiagram
@@ -30,7 +37,7 @@ from cpgui_cycle2 import cpg_cycle2
 class CPGUI(Frame):
     def __init__(self):
             Frame.__init__(self)
-            
+            self.initcomplete=False
             self.ref=' '
             self.tkref=StringVar()
             
@@ -43,7 +50,15 @@ class CPGUI(Frame):
             
             self.master.geometry('1000x800')
             self.master.title('Coolprop GUI')
-            
+            #
+            self.config = configparser.ConfigParser()
+            self.inifile=find_data_file('cpgui.ini')
+            self.config.read(self.inifile)
+            self.language=self.config['cpgui']['language']
+            #
+            localedir=find_data_file('locale')
+            self.lang = gettext.translation('cpgui', localedir=localedir, languages=[self.language],fallback=False)
+            self.lang.install()
             #
             self.grid()
             self.master.columnconfigure(0, weight=1)
@@ -55,13 +70,19 @@ class CPGUI(Frame):
             # File menu
             filemenu = self.file_menu = None
             filemenu = Menu(self.menu, tearoff=False)
-            self.menu.add_cascade(label='File', menu = filemenu)
+            self.menu.add_cascade(label=_('File'), menu = filemenu)
             filemenu.add_separator()
-            filemenu.add_command(label='Quit', command = self.quit)
+            filemenu.add_command(label=_('Quit'), command = self.quit)
+            #Options menu
+            setmenu = Menu(self.menu, tearoff=False)
+            self.menu.add_cascade(label=_("Settings"), menu=setmenu)
+            setmenu.add_separator()
+            setmenu.add_command(label=_('English'), command = lambda: self.set_language('en') )
+            setmenu.add_command(label=_('German'), command = lambda: self.set_language('de') )
             #Help menu
             helpmenu = Menu(self.menu, tearoff=False)
-            self.menu.add_cascade(label="Help", menu=helpmenu)
-            helpmenu.add_command(label='About...', command = self.about )
+            self.menu.add_cascade(label=_("Help"), menu=helpmenu)
+            helpmenu.add_command(label=_('About...'), command = self.about )
             
             self.NotebookFrame=Frame(self.master)
             self.TitleFrame=Frame(self.master)
@@ -81,24 +102,30 @@ class CPGUI(Frame):
             self.dialogframe5 = ttk.Frame(self.NotebookFrame)
             self.dialogframe6 = ttk.Frame(self.NotebookFrame)
             self.dialogframe7 = ttk.Frame(self.NotebookFrame)
-            
-            self.notebook.add(self.dialogframe1,text='Select fluid')
+            #
+            self.nb1_text=_('Select fluid')
+            self.nb2_text=_('State Point')
+            self.nb3_text=_('Saturation table')
+            self.nb4_text=_('Diagrams')
+            self.nb5_text=_('SimpleCycle')
+            self.nb6_text=_('Cycle with heat exchanger')
+            #
+            self.notebook.add(self.dialogframe1,text=self.nb1_text)
             self.cpgbasics1=cpgbasics(self.dialogframe1,self)
 
-            self.notebook.add(self.dialogframe2,text='State Point')
+            self.notebook.add(self.dialogframe2,text=self.nb2_text)
             self.cpgstatepoint1=cpgStatepoint(self.dialogframe2,self)
                         
-            self.notebook.add(self.dialogframe3,text='Saturation table')
+            self.notebook.add(self.dialogframe3,text=self.nb3_text)
             self.cpgtable1=cpgSatTable(self.dialogframe3,self)
             
-            self.notebook.add(self.dialogframe4,text='Diagrams')
+            self.notebook.add(self.dialogframe4,text=self.nb4_text)
             self.cpgDiagram1=cpgDiagram(self.dialogframe4,self)
             
-            self.notebook.add(self.dialogframe5,text='SimpleCycle')
+            self.notebook.add(self.dialogframe5,text=self.nb5_text)
             self.cpgNewClass=cpg_cycle1(self.dialogframe5,self)
 
-                        
-            self.notebook.add(self.dialogframe6,text='Cycle with heat exchanger')
+            self.notebook.add(self.dialogframe6,text=self.nb6_text)
             self.cpgNewClass=cpg_cycle2(self.dialogframe6,self)
             '''
             How to add a tab :
@@ -108,10 +135,11 @@ class CPGUI(Frame):
             '''
             
             self.notebook.bind_all("<<NotebookTabChanged>>", self.tabChangedEvent)
+            self.initcomplete=True
             self.mainloop()
 
     def about(self):
-        messagebox.showinfo("About", "Coolprop GUI 0.3 (c) Reiner J. Mayers 2015")
+        messagebox.showinfo(_("About"), "Coolprop GUI 0.3 (c) Reiner J. Mayers 2015")
     
     def set_ref(self,ref):
         self.ref=ref
@@ -119,7 +147,17 @@ class CPGUI(Frame):
         
     def get_ref(self):
         return self.ref
-            
+    
+    def get_language(self):
+        return self.language
+    
+    def set_language(self,lang):
+        if self.initcomplete :
+            self.config['cpgui']['language'] = lang 
+            with open(self.inifile, 'w') as configfile:
+                self.config.write(configfile)
+            messagebox.showinfo( _("Language changed to %s ")%lang, _("Restart GUI for language change to take effect!"))
+                
     def bindConfigure(self, event):
         if not self.initComplete:
             self.master.bind("<Configure>", self.Master_Configure)
@@ -147,7 +185,7 @@ class CPGUI(Frame):
     
     def tabChangedEvent(self,event):
         updatebook=event.widget.tab(event.widget.index("current"),"text")
-        if updatebook =='Saturation table':
+        if updatebook ==self.nb3_text:
             self.cpgtable1.Update()
                        
 if __name__ == '__main__':
