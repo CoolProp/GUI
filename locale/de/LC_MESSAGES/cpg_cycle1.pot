@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2015-03-24 13:40+Mitteleuropäische Zeit\n"
-"PO-Revision-Date: 2015-03-24 13:48+0100\n"
+"PO-Revision-Date: 2015-03-26 16:05+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -159,23 +159,23 @@ msgid ""
 "Power calculations                      | Key performance values\n"
 msgstr ""
 "\n"
-"Leistungsberechnung                 | Eckdaten \n"
+"Leistungsberechnung                     | Eckdaten \n"
 
 #: cpgui_cycle1.py:339
 msgid "Evaporator                 %8.2f kW  | Pressure ratio             %8.2f (%8.2f)\n"
-msgstr "Verdampfer                 %8.2f kW  |  Druckverhältnis         %8.2f (%8.2f)\n"
+msgstr "Verdampfer                 %8.2f kW  | Druckverhältnis           %8.2f (%8.2f)\n"
 
 #: cpgui_cycle1.py:340
 msgid "Condenser                  %8.2f kW  | Pressure difference        %8.2f (%8.2f) bar\n"
-msgstr "Verflüssiger               %8.2f kW  | Druckdifferenz                %8.2f (%8.2f) bar\n"
+msgstr "Verflüssiger               %8.2f kW  | Druckdifferenz            %8.2f (%8.2f) bar\n"
 
 #: cpgui_cycle1.py:341
 msgid "Suction line               %8.2f kW  | Mass flow                  %8.6f g/s \n"
-msgstr "Saugleitung                %8.2f kW  | Massestrom              %8.6f g/s \n"
+msgstr "Saugleitung                %8.2f kW  | Massestrom                    %8.6f g/s \n"
 
 #: cpgui_cycle1.py:342
 msgid "Discharge line             %8.2f kW  | Volume flow (suction line) %8.4f m³/h \n"
-msgstr "Heißgasleitung             %8.2f kW  | Volumenstrom Saugleit.     %8.4f m³/h \n"
+msgstr "Heißgasleitung             %8.2f kW  | Volumenstrom Saugleit.      %8.4f m³/h \n"
 
 #: cpgui_cycle1.py:343
 msgid "Compressor                 %8.2f kW  | Volumetric capacity        %8.2f kJ/m³ \n"
@@ -183,4 +183,4 @@ msgstr "Verdichter                 %8.2f kW  | Volumetr. Kälteleistung   %8.2f 
 
 #: cpgui_cycle1.py:344
 msgid "                                        | COP                        %8.2f \n"
-msgstr "                                        | COP                        %8.2f \n"
+msgstr "                                        | COP                       %8.2f \n"

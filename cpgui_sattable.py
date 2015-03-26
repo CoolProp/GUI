@@ -8,12 +8,8 @@ Created on Fri Feb 27 2015 16:45
 import sys
 import gettext
 
-if sys.version_info[0] < 3:
-    from Tkinter import *
-    import ttk
-else:
-    from tkinter import *
-    from tkinter import ttk
+from tkinter import *
+from tkinter import ttk
 
 import CoolProp
 from CoolProp.CoolProp import PropsSI
@@ -44,15 +40,10 @@ class cpgSatTable(myDialog):
         #
         self.frameborder=5
         #
-        self.p_choice=_('Pressure        [Pa]')
-        self.t_choice=_('Temperature     [K]')
-        #
-        self.f_choice=_('Pure fluid')
-        self.mix_choice= _('Mixture')
-        #
-        self.choices1=(self.p_choice, self.t_choice)
-        self.symbols1=('P','T')
-        self.choices2=(self.f_choice,self.mix_choice)
+        self.choices=(  label['T'], 
+                        label['p'],
+                        )
+        self.symbols=('T','p')
         #
         self.ObenFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text=_('Select order type and input Values'),font=("Arial", 12))
         self.ObenFrame.grid(row=1,column=1)
@@ -64,10 +55,16 @@ class cpgSatTable(myDialog):
         self.Input1Label1.grid(row=1,column=1,padx=8,sticky=W,pady=5)
         self.Input1Label2 = Label(self.ObenFrame,text=_('        min value'),font=("Arial", 12) )
         self.Input1Label2.grid(row=1,column=3,padx=8,sticky=W,pady=5)
+        self.Input1LabelU1 = Label(self.ObenFrame,text=_('x '),font=("Arial", 12) )
+        self.Input1LabelU1.grid(row=1,column=5,padx=8,sticky=W,pady=5)
         self.Input1Label3 = Label(self.ObenFrame,text=_('        max value'),font=("Arial", 12) )
         self.Input1Label3.grid(row=2,column=3,padx=8,sticky=W,pady=5)
+        self.Input1LabelU2 = Label(self.ObenFrame,text=_('x '),font=("Arial", 12) )
+        self.Input1LabelU2.grid(row=2,column=5,padx=8,sticky=W,pady=5)
         self.Input1Label4 = Label(self.ObenFrame,text=_('        step size'),font=("Arial", 12) )
         self.Input1Label4.grid(row=3,column=3,padx=8,sticky=W,pady=5)
+        self.Input1LabelU3 = Label(self.ObenFrame,text=_('x '),font=("Arial", 12) )
+        self.Input1LabelU3.grid(row=3,column=5,padx=8,sticky=W,pady=5)
         #
         self.Input1Entry1 = Entry(self.ObenFrame,width="15",font=("Arial", 12))
         self.Input1Entry1.grid(row=1,column=4,sticky=W,padx=8,pady=5)
@@ -91,10 +88,10 @@ class cpgSatTable(myDialog):
         self.Input1Entry3_StringVar_traceName = self.Input1Entry3_StringVar.trace_variable("w", self.Input1Entry3_StringVar_Callback)
         #
         self.CBOX1_StringVar = StringVar()
-        self.CBOX1_StringVar.set(self.p_choice)
+        self.CBOX1_StringVar.set(label['p'])
         self.CBOX1_StringVar_traceName = self.CBOX1_StringVar.trace_variable("w",self.CBOX1_StringVar_Callback)
         self.CBOX1 = ttk.Combobox(self.ObenFrame, textvariable=self.CBOX1_StringVar,font=("Arial", 12))
-        self.CBOX1['values'] = self.choices1
+        self.CBOX1['values'] = self.choices
         self.CBOX1.grid(column=2,row=1,padx=8,sticky=W,pady=5)
         self.CBOX1.current(1)
         self.ordertype=self.CBOX1_StringVar.get()
@@ -122,6 +119,22 @@ class cpgSatTable(myDialog):
             
     def CBOX1_StringVar_Callback(self, varName, index, mode):
         #
+        long_quant=self.CBOX1_StringVar.get()
+        #
+        mykey=' '
+        for key in label.keys():
+            if label[key] == long_quant:
+                self.Input1LabelU1.config(text=GUI_UNIT(key))
+                self.Input1LabelU2.config(text=GUI_UNIT(key))
+                if key == 'T' :
+                    self.Input1LabelU3.config(text=GUI_UNIT('dT'))
+                    
+                else :
+                    self.Input1LabelU3.config(text=GUI_UNIT(key))
+                self.Quantity=key
+        # Now set default Values
+        #self.Line1E1_StringVar.set(default[GUI_UNIT(self.Quantity1)])
+        #self.Value1=TO_SI(self.Quantity1,float(self.Line1E1_StringVar.get().replace(',','.')))
         self.Update()
          
     def Input1Entry1_StringVar_Callback(self, varName, index, mode):
@@ -151,35 +164,69 @@ class cpgSatTable(myDialog):
         #
         self.statetext=self.titel%self.ref
         self.statetext+='\n'
-        self.statetext+=u"   T   |    p    |    \u03C1\'   |    \u03C1\'\'   |    h\'  |   h\'\'  |    s\'  |   s\'\'   |   cv    |   cp    \n"  
+        self.statetext+=u"   T     |     p     |    \u03C1\'   |    \u03C1\'\'   |    h\'  |   h\'\'  |    s\'  |   s\'\'   |   cv    |   cp    \n"  
         self.statetext+= "-----------------------------------------------------------------------------------------------------\n"
         self.Text_1.insert(END, self.statetext)
-        self.datarow=" %5.1f | %7.0f | %6.2f | %8.4f | %6.0f | %6.0f | %6.2f | %6.2f | %6.3f | %6.3f \n"
-        if self.ordertype == self.t_choice :
-            try :
-                temperatures=np.arange(self.Tmin,self.Tmax+1,1)
-            except AttributeError :
-                self.Tmin=round(self.search_Tmin()+0.5,0)
-                self.Tmax=self.search_Tmax()
-                temperatures=np.arange(self.Tmin,self.Tmax+1,1)
+        self.datarow=" %7.2f | %9.4f | %6.2f | %8.4f | %6.2f | %6.2f | %6.2f | %6.2f | %6.3f | %6.3f \n"
+        
+        #self.Value1=TO_SI(self.Quantity1,float(self.Line1E1_StringVar.get().replace(',','.')))
+        if self.Quantity == 'T' :
+            self.Tmin=TO_SI(self.Quantity,float(self.Input1Entry1_StringVar.get().replace(',','.')))
+            self.Tmax=TO_SI(self.Quantity,float(self.Input1Entry2_StringVar.get().replace(',','.')))
+            self.steps=TO_SI('dT',float(self.Input1Entry3_StringVar.get().replace(',','.')))
+            temperatures=np.arange(self.Tmin,self.Tmax,self.steps)
+
             for T in range(len(temperatures)):
                 TLIQ=temperatures[T]
-                PLIQ,DLIQ,HLIQ,SLIQ=PropsSI(['P','D','H','S'],'T',temperatures[T],'Q',0,self.ref)
-                PVAP,DVAP,HVAP,SVAP,CV,CP=PropsSI(['P','D','H','S','CVMASS','CPMASS'],'T',temperatures[T],'Q',1,self.ref)
-                mydatarow=self.datarow%(TLIQ,PLIQ,DLIQ,DVAP,HLIQ,HVAP,SLIQ,SVAP,CV,CP)
+                try :
+                    PLIQ,DLIQ,HLIQ,SLIQ=PropsSI(['P','D','H','S'],'T',temperatures[T],'Q',0,self.ref)
+                except ValueError :
+                    PLIQ,DLIQ,HLIQ,SLIQ=np.NaN,np.NaN,np.NaN,np.NaN
+                try :
+                    PVAP,DVAP,HVAP,SVAP,CV,CP=PropsSI(['P','D','H','S','CVMASS','CPMASS'],'T',temperatures[T],'Q',1,self.ref)
+                except ValueError :
+                    PVAP,DVAP,HVAP,SVAP,CV,CP=np.NaN,np.NaN,np.NaN,np.NaN,np.NaN,np.NaN                 
+                mydatarow=self.datarow%(
+                                        SI_TO('T',TLIQ),
+                                        SI_TO('p',PLIQ),
+                                        SI_TO('D',DLIQ),
+                                        SI_TO('D',DVAP),
+                                        SI_TO('H',HLIQ),
+                                        SI_TO('H',HVAP),
+                                        SI_TO('S',SLIQ),
+                                        SI_TO('S',SVAP),
+                                        SI_TO('Cv',CV),
+                                        SI_TO('Cp',CP)
+                                        )
                 self.Text_1.insert(END, mydatarow)
         else :
-            try :
-                pressures=np.arange(self.Pmin,self.Pmax,10000)
-            except AttributeError :
-                self.Pmin=round((self.search_Pmin()+10000)/10000,0)*10000.0
-                self.Pmax=self.search_Pmax()
-                pressures=np.arange(self.Pmin,self.Pmax,10000)
+            self.Pmin=TO_SI(self.Quantity,float(self.Input1Entry1_StringVar.get().replace(',','.')))
+            self.Pmax=TO_SI(self.Quantity,float(self.Input1Entry2_StringVar.get().replace(',','.')))
+            self.steps=TO_SI(self.Quantity,float(self.Input1Entry3_StringVar.get().replace(',','.')))
+            pressures=np.arange(self.Pmin,self.Pmax,self.steps)
+
             for P in range(len(pressures)):
                 PLIQ=pressures[P]
-                TLIQ,DLIQ,HLIQ,SLIQ=PropsSI(['T','D','H','S'],'P',pressures[P],'Q',0,self.ref)
-                TVAP,DVAP,HVAP,SVAP,CV,CP=PropsSI(['T','D','H','S','CVMASS','CPMASS'],'P',pressures[P],'Q',1,self.ref)
-                mydatarow=self.datarow%(TLIQ,PLIQ,DLIQ,DVAP,HLIQ,HVAP,SLIQ,SVAP,CV,CP)
+                try :
+                    TLIQ,DLIQ,HLIQ,SLIQ=PropsSI(['T','D','H','S'],'P',pressures[P],'Q',0,self.ref)
+                except ValueError :
+                    PLIQ,DLIQ,HLIQ,SLIQ=np.NaN,np.NaN,np.NaN,np.NaN
+                try :
+                    TVAP,DVAP,HVAP,SVAP,CV,CP=PropsSI(['T','D','H','S','CVMASS','CPMASS'],'P',pressures[P],'Q',1,self.ref)
+                except ValueError :
+                    PVAP,DVAP,HVAP,SVAP,CV,CP=np.NaN,np.NaN,np.NaN,np.NaN,np.NaN,np.NaN  
+                mydatarow=self.datarow%(
+                                        SI_TO('T',TLIQ),
+                                        SI_TO('p',PLIQ),
+                                        SI_TO('D',DLIQ),
+                                        SI_TO('D',DVAP),
+                                        SI_TO('H',HLIQ),
+                                        SI_TO('H',HVAP),
+                                        SI_TO('S',SLIQ),
+                                        SI_TO('S',SVAP),
+                                        SI_TO('Cv',CV),
+                                        SI_TO('Cp',CP)
+                                        )
                 self.Text_1.insert(END, mydatarow)   
                              
     def Update(self):
@@ -191,21 +238,20 @@ class cpgSatTable(myDialog):
             self.Tmax=self.search_Tmax()
             self.Pmax=self.search_Pmax()
             self.ordertype=self.CBOX1_StringVar.get()
-            if self.ordertype == self.t_choice:
-                self.Input1Entry1_StringVar.set("%d"%self.Tmin)
-                self.Input1Entry2_StringVar.set("%d"%self.Tmax)
+            if self.ordertype == label['T']:
+                self.Input1Entry1_StringVar.set('{:+12.2f}'.format(SI_TO('T',self.Tmin)))
+                self.Input1Entry2_StringVar.set('{:+12.2f}'.format(SI_TO('T',self.Tmax)))
                 self.Input1Entry3_StringVar.set("%d"%1)
             else :
-                self.Input1Entry1_StringVar.set("%d"%self.Pmin)
-                self.Input1Entry2_StringVar.set("%d"%self.Pmax)
-                self.Input1Entry3_StringVar.set("%d"%10000)            
+                self.Input1Entry1_StringVar.set('{:12.2f}'.format(SI_TO('p',self.Pmin)))
+                self.Input1Entry2_StringVar.set('{:12.2f}'.format(SI_TO('p',self.Pmax)))
+                self.Input1Entry3_StringVar.set('{:12.2f}'.format(SI_TO('p',10000)))          
                 
             self.Text_1.delete(1.0, END)
             #
             self.statetext= 'Coolprop Version     : %s     \n'%str(CoolProp.__version__)
             self.statetext+='Coolprop gitrevision : %s     \n'%str(CoolProp.__gitrevision__)
             self.statetext+=self.kmstring%str(self.ref)
-    
             self.Text_1.insert(END,self.statetext)
             
     def search_Tmax(self):
@@ -289,7 +335,7 @@ class _Testdialog:
     def get_ref(self):
         return 'R134a'
     def get_language(self):
-        return 'de'
+        return 'en'
 
 def main():
     root = Tk()
