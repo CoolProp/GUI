@@ -37,3 +37,14 @@ Next steps :
 - add scaling for reference of state for entropy and enthalpy (IIR, ASHRAE, NBP ... )
 - add help system
 
+
+# Installation with conda
+If you use the conda package manager for Python, you might these commands 
+useful. This is what I tried on a 32-bit Debian Linux machine:
+- conda create -n py3k python=3
+- source activate py3k
+- conda install Cython Pillow matplotlib numpy scipy six pip
+- pip install coolprop 
+- python cpgui.py 
+
+... and you should be up and running ... or stuck with a Tk problem like me.
