@@ -1,32 +1,22 @@
 # -*- coding: utf-8 -*-
 #
-from __future__ import print_function
 import sys
-
-from cpgui_all import *
 import configparser
 import gettext
 
-
-
 import numpy as np
-from winnt import LANG_AFRIKAANS
 
 np.seterr(divide='ignore', invalid='ignore')
 #
-if sys.version_info[0] < 3:
-    import tkFileDialog as FileDialog
-    from Tkinter import *
-    import ttk
-else:
-    from tkinter import filedialog
-    from tkinter import messagebox
-    from tkinter import *
-    from tkinter import ttk
+from tkinter import filedialog, simpledialog
+from tkinter import messagebox
+from tkinter import *
+from tkinter import ttk
 
 import CoolProp
 
-
+from cpgui_all import *
+from cpgui_settings import cpg_settings
 from cpgui_basics import cpgbasics
 from cpgui_statepoint import cpgStatepoint
 from cpgui_diagram import cpgDiagram
@@ -35,11 +25,12 @@ from cpgui_cycle1 import cpg_cycle1
 from cpgui_cycle2 import cpg_cycle2
 
 class CPGUI(Frame):
-    def __init__(self):
+    def __init__(self,parent):
             Frame.__init__(self)
             self.initcomplete=False
             self.ref=' '
             self.tkref=StringVar()
+            self.parent=parent
             
             self.set_ref('R134a')
 
@@ -52,6 +43,7 @@ class CPGUI(Frame):
             self.master.title('Coolprop GUI')
             #
             self.config = configparser.ConfigParser()
+            self.config.optionxform = str
             self.inifile=find_data_file('cpgui.ini')
             self.config.read(self.inifile)
             self.language=self.config['cpgui']['language']
@@ -79,6 +71,7 @@ class CPGUI(Frame):
             setmenu.add_separator()
             setmenu.add_command(label=_('English'), command = lambda: self.set_language('en') )
             setmenu.add_command(label=_('German'), command = lambda: self.set_language('de') )
+            
             #Help menu
             helpmenu = Menu(self.menu, tearoff=False)
             self.menu.add_cascade(label=_("Help"), menu=helpmenu)
@@ -95,6 +88,7 @@ class CPGUI(Frame):
             self.notebook = ttk.Notebook(self.NotebookFrame)
             self.notebook.pack(fill = 'both', expand = 1, padx = 5, pady = 5)
             #
+            self.dialogframe0 = ttk.Frame(self.NotebookFrame)
             self.dialogframe1 = ttk.Frame(self.NotebookFrame)
             self.dialogframe2 = ttk.Frame(self.NotebookFrame)
             self.dialogframe3 = ttk.Frame(self.NotebookFrame)
@@ -103,6 +97,7 @@ class CPGUI(Frame):
             self.dialogframe6 = ttk.Frame(self.NotebookFrame)
             self.dialogframe7 = ttk.Frame(self.NotebookFrame)
             #
+            self.nb0_text=_('Settings')
             self.nb1_text=_('Select fluid')
             self.nb2_text=_('State Point')
             self.nb3_text=_('Saturation table')
@@ -110,6 +105,9 @@ class CPGUI(Frame):
             self.nb5_text=_('SimpleCycle')
             self.nb6_text=_('Cycle with heat exchanger')
             #
+            self.notebook.add(self.dialogframe0,text=self.nb0_text)
+            self.cpgsettings=cpg_settings(self.dialogframe0,self)
+            
             self.notebook.add(self.dialogframe1,text=self.nb1_text)
             self.cpgbasics1=cpgbasics(self.dialogframe1,self)
 
@@ -134,11 +132,11 @@ class CPGUI(Frame):
             The Update method can be called on selection of the tab, see tabChangedEvent below
             Create translation .pot file e.g. python \Py34_64\Tools\i18n\pygettext.py -d de -o cpgSatTable.pot cpgui_sattable.py
             '''
-            
+            self.notebook.select(1)
             self.notebook.bind_all("<<NotebookTabChanged>>", self.tabChangedEvent)
             self.initcomplete=True
             self.mainloop()
-
+        
     def about(self):
         messagebox.showinfo(_("About"), "Coolprop GUI 0.3 (c) Reiner J. Mayers 2015")
     
@@ -198,6 +196,6 @@ if __name__ == '__main__':
     except tkinter.Tclerror :
         pass
         # On Ubuntu we ignore the .ico file for now
-    CPGUI()
+    CPGUI(root)
 
 

@@ -17,6 +17,7 @@ To create an installable package nsis and the HM nsis editor on windows work nic
 
 General features :
 - usage of Coolprop and Refprop fluids and mixtures
+- different input and output units
 - english and german version 
 - mixture setup by mass fractions
 - calculate state points
@@ -31,10 +32,8 @@ Issues :
 - No plots for mixtures
 - Many issues with mixtures and plots
 - no scaling of entropy and enthalpy yet (reference of state)
-- no support for different units yet
 
 Next steps :
 - add scaling for reference of state for entropy and enthalpy (IIR, ASHRAE, NBP ... )
-- add support for different input and output units
 - add help system
 

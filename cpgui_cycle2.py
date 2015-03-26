@@ -39,46 +39,46 @@ class cpg_cycle2(myDialog):
         #
         self.Debug=Debug
         #
-        self.VarVal         ={'t0':-10,'dt0h':7,'dp0':0,'Q0':1,'tc':35,'dtu':3,'dpc':0,'sl_dth':0,'sl_dp':0,'dl_dtu':0,'dl_dp':0,'comp_eta':0.8,'hx_kxa':23,'hx_dp':0}
+        self.VarVal         ={'t0':273.15,'dt0h':10,'dp0':10000,'Q0':1000,'tc':273.15+45,'dtu':5,'dpc':10000,'sl_dth':10,'sl_dp':10000,'dl_dtu':18,'dl_dp':10000,'comp_eta':0.6,'hx_kxa':23,'hx_dp':0}
         self.InputPanels    ={'Evaporator':{'Title':_('Evaporator'),
                                             'row':1,                                                # row of Evaporator Frame in InputFrame
                                             'col':1,                                                # coloumn of Evaporator Frame in InputFrame
                                             'order':['t0','dt0h','dp0','Q0'],                       # Input fields order of appearance
-                                            't0':[_('Temperature'),self.VarVal['t0'],u'°C'],           # Input fields, Label, Variable to change, Unit Label / this List will be extended by a tkinter StringVar for callback on change
-                                            'dt0h':[_('Superheat'),self.VarVal['dt0h'],u'K'],
-                                            'dp0':[_('Pressure drop'),self.VarVal['dp0'],u'bar'],
-                                            'Q0':[_('Capacity'),self.VarVal['Q0'],u'kW'],
+                                            't0':[_('Temperature'),self.VarVal['t0'],GUI_UNIT('T'),'T'],           # Input fields, Label, Variable to change, Unit Label / this List will be extended by a tkinter StringVar for callback on change
+                                            'dt0h':[_('Superheat'),self.VarVal['dt0h'],GUI_UNIT('dT'),'dT'],
+                                            'dp0':[_('Pressure drop'),self.VarVal['dp0'],GUI_UNIT('p'),'p'],
+                                            'Q0':[_('Capacity'),self.VarVal['Q0'],GUI_UNIT('P'),'P'],
                                             },
                               'Condenser':{'Title':_('Condenser'),
                                             'row':1,
                                             'col':2,
                                             'order':['tc','dtu','dpc','empty'],
-                                            'tc':[_('Temperature'),self.VarVal['tc'],u'°C'],
-                                            'dtu':[_('Subcooling'),self.VarVal['dtu'],u'K'],
-                                            'dpc':[_('Pressure drop'),self.VarVal['dpc'],u'bar'],
+                                            'tc':[_('Temperature'),self.VarVal['tc'],GUI_UNIT('T'),'T'],
+                                            'dtu':[_('Subcooling'),self.VarVal['dtu'],GUI_UNIT('dT'),'dT'],
+                                            'dpc':[_('Pressure drop'),self.VarVal['dpc'],GUI_UNIT('p'),'p'],
                                             'empty':[' '],
                                             },
                               'Pipes':{'Title':_('Suction line SL / Discharge line DL'),
                                             'row':1,
                                             'col':3,  
                                             'order':['sl_dth','sl_dp','dl_dtu','dl_dp'],
-                                            'sl_dth':[_('SL superheat'),self.VarVal['sl_dth'],u'K'],
-                                            'sl_dp':[_('SL Pressure drop'),self.VarVal['sl_dp'],u'bar'],
-                                            'dl_dtu':[_('DL Temperature loss'),self.VarVal['dl_dtu'],u'K'],
-                                            'dl_dp':[_('DL Pressure drop'),self.VarVal['dl_dp'],u'bar'],
+                                            'sl_dth':[_('SL superheat'),self.VarVal['sl_dth'],GUI_UNIT('dT'),'dT'],
+                                            'sl_dp':[_('SL Pressure drop'),self.VarVal['sl_dp'],GUI_UNIT('p'),'p'],
+                                            'dl_dtu':[_('DL Temperature loss'),self.VarVal['dl_dtu'],GUI_UNIT('dT'),'dT'],
+                                            'dl_dp':[_('DL Pressure drop'),self.VarVal['dl_dp'],GUI_UNIT('p'),'p'],
                                       },
                               'Compressor':{'Title':_('Compressor'),
                                             'row':2,
                                             'col':1,
                                             'order':['comp_eta'],
-                                            'comp_eta':[_('Isentropic efficiency'),self.VarVal['comp_eta'],u' '],
+                                            'comp_eta':[_('Isentropic efficiency'),self.VarVal['comp_eta'],GUI_UNIT('eta'),'eta'],
                                            },
                               'InternalHX':{'Title':_('Internal heat exchanger'),
                                             'row':2,
                                             'col':2,
                                             'order':['hx_kxa','hx_dp'],
-                                            'hx_kxa':['K x A Value',self.VarVal['hx_kxa'],u'W/K'],
-                                            'hx_dp':[_('Gas pressure drop'),self.VarVal['hx_dp'],u'bar'],}
+                                            'hx_kxa':['K x A Value',self.VarVal['hx_kxa'],GUI_UNIT('kxa'),'kxa'],
+                                            'hx_dp':[_('Gas pressure drop'),self.VarVal['hx_dp'],GUI_UNIT('p'),'p'],}
                               }
         #
         self.dialogframe=GridFrame
@@ -168,16 +168,19 @@ class cpg_cycle2(myDialog):
     
     def GridInputPanel(self,GridFrame,PanelKey,Debug=False,tfont=("Arial", 10, "bold"),font=("Arial", 10)):
         #
+        LineList=self.InputPanels[PanelKey]['order']
         GIPanel=LabelFrame(GridFrame,relief=GROOVE,bd=5,text=self.InputPanels[PanelKey]['Title'])
         GIPanel.grid(row=self.InputPanels[PanelKey]['row'],column=self.InputPanels[PanelKey]['col'],padx=8,pady=5,sticky=W)
         #
         i=1
         for k in self.InputPanels[PanelKey]['order'] :
-            #print(k,self.InputPanels[PanelKey][k][0])
             if self.InputPanels[PanelKey][k][0] != ' ' :
                 self.InputPanels[PanelKey][k].append(StringVar())
-                self.InputPanels[PanelKey][k][-1].set('%f'%self.InputPanels[PanelKey][k][1])
-                self.InputPanels[PanelKey][k][-1].trace("w", lambda name, index, mode, var=self.InputPanels[PanelKey][k][-1], key=k: self.GridInputPanelUpdate(var, key))
+                outval=SI_TO(self.InputPanels[PanelKey][k][-2], self.InputPanels[PanelKey][k][1])
+                print('cycle 1 : GridInputPanel : SI_TO : ',outval)
+                #self.InputPanels[PanelKey][k][-1].set('%f'%self.InputPanels[PanelKey][k][1])
+                self.InputPanels[PanelKey][k][-1].set(outval)
+                self.InputPanels[PanelKey][k][-1].trace("w", lambda name, index, mode, var=self.InputPanels[PanelKey][k][-1],quantity=self.InputPanels[PanelKey][k][-2], key=k: self.GridInputPanelUpdate(var, key, quantity))
                 Label(GIPanel, text=self.InputPanels[PanelKey][k][0],font=font).grid(column=1, row=i,padx=8,pady=5,sticky=W)
                 Entry(GIPanel, width=15, textvariable=self.InputPanels[PanelKey][k][-1],font=font).grid(column=2, row=i,padx=8,pady=5,sticky=W)
                 Label(GIPanel, text=self.InputPanels[PanelKey][k][2],font=font).grid(column=3, row=i,padx=8,pady=5,sticky=W)
@@ -186,10 +189,11 @@ class cpg_cycle2(myDialog):
             #
             i+=1
     #
-    def GridInputPanelUpdate(self, sv,key):
-        self.VarVal[key]=sv.get()
+    def GridInputPanelUpdate(self, sv,key,quantity):
+        print(sv, key, sv.get(),quantity)
+        #self.VarVal[key]=sv.get()
         try :
-            self.VarVal[key]=float(sv.get().replace(',','.'))
+            self.VarVal[key]=TO_SI(quantity,float(sv.get().replace(',','.')))
         except ValueError :
             pass
         #print( key,self.VarVal[key])
@@ -225,7 +229,7 @@ class cpg_cycle2(myDialog):
         self.statetext=_('Simple DX cycle statepoint Table for %s\n\n')%self.ref
         self.statetext+=_(' Point  |   t    |   p     |      v     |    h    |    s    |    x    | Description \n')
         self.datarow=    " %6s | %6.2f | %6.2f  | %10.5f | %7.2f | %7.4f | %7s | %s \n"
-        self.statetext+=u"        |   °C   |  bar    |    m³/kg   |   kg/kJ | kg/kJ/K |  kg/kg  |    \n"  
+        self.statetext+="        |   {}   |  {}    |    {}   |   {} | {} |  {}  |    \n".format(GUI_UNIT('T'),GUI_UNIT('p'),GUI_UNIT('v'),GUI_UNIT('H'),GUI_UNIT('S'),GUI_UNIT('Q'),)
         self.statetext+= "-------------------------------------------------------------------------------------------------\n"
         #
         self.row={}
@@ -244,24 +248,25 @@ class cpg_cycle2(myDialog):
     def iter_run(self,InitialRun=True):
         #
         name='7dew'
-        self.p7dew=PropsSI('P','T',C2K(self.t0),'Q',1,self.ref)
-        self.t7dew=C2K(self.t0)
-        self.v7dew=1/PropsSI('D','T',C2K(self.t0),'Q',1,self.ref)
-        self.h7dew=PropsSI('H','T',C2K(self.t0),'Q',1,self.ref)
-        self.s7dew=PropsSI('S','T',C2K(self.t0),'Q',1,self.ref)
+        self.p7dew=PropsSI('P','T',self.t0,'Q',1,self.ref)
+        self.t7dew=self.t0
+        self.v7dew=1/PropsSI('D','T',self.t0,'Q',1,self.ref)
+        self.h7dew=PropsSI('H','T',self.t0,'Q',1,self.ref)
+        self.s7dew=PropsSI('S','T',self.t0,'Q',1,self.ref)
         self.x7dew='       '
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t7dew),pa2bar(self.p7dew),self.v7dew,j2kj(self.h7dew),j2kj(self.s7dew),self.x7dew,self.InfoDict[name][1])
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t7dew),SI_TO('p',self.p7dew),self.v7dew,SI_TO('H',self.h7dew),SI_TO('S',self.s7dew),self.x7dew,self.InfoDict[name][1])
+        print(self.InfoDict[name][0],SI_TO('T',self.t7dew),SI_TO('p',self.p7dew),self.v7dew,SI_TO('H',self.h7dew),SI_TO('S',self.s7dew),self.x7dew,self.InfoDict[name][1])
         #
         # superheat on evaporator exit
         name='7'
         self.p7=self.p7dew
-        self.t7=C2K(self.t0)+self.dt0h
+        self.t7=self.t0+self.dt0h
         self.v7=1/PropsSI('D','T',self.t7,'P',self.p7,self.ref)
         self.h7=PropsSI('H','T',self.t7,'P',self.p7,self.ref)
         self.s7=PropsSI('S','T',self.t7,'P',self.p7,self.ref)
         self.x7='       '
         self.cp7=PropsSI('C','P',self.p7,'T',self.t7,self.ref)
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t7),pa2bar(self.p7),self.v7,j2kj(self.h7),j2kj(self.s7),self.x7,self.InfoDict[name][1])
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t7),SI_TO('p',self.p7),self.v7,SI_TO('H',self.h7),SI_TO('S',self.s7),self.x7,self.InfoDict[name][1])
         #
         # we ignore the hx for now
         name='8'
@@ -272,28 +277,28 @@ class cpg_cycle2(myDialog):
             self.h8=self.h7
             self.s8=self.s7
         else :
-            self.p8=self.p7-bar2pa(self.hx_dp)
+            self.p8=self.p7-self.hx_dp
             self.t8=self.t7+self.dt_gas_out
             self.v8=1/PropsSI('D','T',self.t8,'P',self.p8,self.ref)
             self.h8=PropsSI('H','T',self.t8,'P',self.p8,self.ref)
             self.s8=PropsSI('S','T',self.t8,'P',self.p8,self.ref)
         self.x8='       '
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t8),pa2bar(self.p8),self.v8,j2kj(self.h8),j2kj(self.s8),self.x8,self.InfoDict[name][1])
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t8),SI_TO('p',self.p8),self.v8,SI_TO('H',self.h8),SI_TO('S',self.s8),self.x8,self.InfoDict[name][1])
         self.cp8=PropsSI('C','P',self.p8,'T',self.t8,self.ref)
         #
         # + superheat and pressure drop suction line
         name='1'
-        self.p1=self.p8-bar2pa(self.sl_dp)
+        self.p1=self.p8-self.sl_dp
         self.t1=self.t8+self.sl_dth
         self.v1=1/PropsSI('D','T',self.t1,'P',self.p1,self.ref)
         self.h1=PropsSI('H','T',self.t1,'P',self.p1,self.ref)
         self.s1=PropsSI('S','T',self.t1,'P',self.p1,self.ref)
         self.x1='       '
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t1),pa2bar(self.p1),self.v1,j2kj(self.h1),j2kj(self.s1),self.x1,self.InfoDict[name][1])
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t1),SI_TO('p',self.p1),self.v1,SI_TO('H',self.h1),SI_TO('S',self.s1),self.x1,self.InfoDict[name][1])
         #
         # isentropic compression
         name='2s'
-        self.p2s=PropsSI('P','T',C2K(self.tc),'Q',1,self.ref)+bar2pa(self.dl_dp)
+        self.p2s=PropsSI('P','T',self.tc,'Q',1,self.ref)+self.dl_dp
         self.s2s=self.s1
         try :
             self.t2s=PropsSI('T','P',self.p2s,'S',self.s2s,self.ref)
@@ -303,7 +308,7 @@ class cpg_cycle2(myDialog):
         self.v2s=1/PropsSI('D','T',self.t2s,'P',self.p2s,self.ref)
         self.h2s=PropsSI('H','T',self.t2s,'P',self.p2s,self.ref)
         self.x2s='       '
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t2s),pa2bar(self.p2s),self.v2s,j2kj(self.h2s),j2kj(self.s2s),self.x2s,self.InfoDict[name][1])
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t2s),SI_TO('p',self.p2s),self.v2s,SI_TO('H',self.h2s),SI_TO('S',self.s2s),self.x2s,self.InfoDict[name][1])
         #
         # real compression
         name='2'
@@ -317,37 +322,37 @@ class cpg_cycle2(myDialog):
         self.v2=1/PropsSI('D','T',self.t2,'P',self.p2,self.ref)
         self.s2=PropsSI('S','T',self.t2,'P',self.p2,self.ref)
         self.x2='       '
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t2),pa2bar(self.p2),self.v2,j2kj(self.h2),j2kj(self.s2),self.x2,self.InfoDict[name][1])
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t2),SI_TO('p',self.p2),self.v2,SI_TO('H',self.h2),SI_TO('S',self.s2),self.x2,self.InfoDict[name][1])
         #
         # condenser entry
         name='3'
-        self.p3=self.p2-bar2pa(self.dl_dp)
+        self.p3=self.p2-self.dl_dp
         self.t3=self.t2-self.dl_dtu
         self.h3=PropsSI('H','P',self.p3,'T',self.t3,self.ref)
         self.v3=1/PropsSI('D','T',self.t3,'P',self.p3,self.ref)
         self.s3=PropsSI('S','T',self.t3,'P',self.p3,self.ref)
         self.x3='       '
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t3),pa2bar(self.p3),self.v3,j2kj(self.h3),j2kj(self.s3),self.x3,self.InfoDict[name][1])
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t3),SI_TO('p',self.p3),self.v3,SI_TO('H',self.h3),SI_TO('S',self.s3),self.x3,self.InfoDict[name][1])
         #
         # inside condenser dewpoint
         name='3dew'
-        self.t3dew=C2K(self.tc)
+        self.t3dew=self.tc
         self.p3dew=PropsSI('P','T',self.t3dew,'Q',1,self.ref)
         self.h3dew=PropsSI('H','P',self.p3dew,'Q',1,self.ref)
         self.v3dew=1/PropsSI('D','P',self.p3dew,'Q',1,self.ref)
         self.s3dew=PropsSI('S','P',self.p3dew,'Q',1,self.ref)
         self.x3dew='       '
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t3dew),pa2bar(self.p3dew),self.v3dew,j2kj(self.h3dew),j2kj(self.s3dew),self.x3dew,self.InfoDict[name][1])
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t3dew),SI_TO('p',self.p3dew),self.v3dew,SI_TO('H',self.h3dew),SI_TO('S',self.s3dew),self.x3dew,self.InfoDict[name][1])
         #
         # inside condenser bubblepoint
         name='4bub'
-        self.p4bub=self.p3dew-bar2pa(self.dpc)
+        self.p4bub=self.p3dew-self.dpc
         self.t4bub=PropsSI('T','P',self.p4bub,'Q',0,self.ref)
         self.h4bub=PropsSI('H','P',self.p4bub,'Q',0,self.ref)
         self.v4bub=1/PropsSI('D','P',self.p4bub,'Q',0,self.ref)
         self.s4bub=PropsSI('S','P',self.p4bub,'Q',0,self.ref)
         self.x4bub='       '
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t4bub),pa2bar(self.p4bub),self.v4bub,j2kj(self.h4bub),j2kj(self.s4bub),self.x4bub,self.InfoDict[name][1])
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t4bub),SI_TO('p',self.p4bub),self.v4bub,SI_TO('H',self.h4bub),SI_TO('S',self.s4bub),self.x4bub,self.InfoDict[name][1])
         #
         # condenser exit
         name='4'
@@ -358,7 +363,7 @@ class cpg_cycle2(myDialog):
         self.s4=PropsSI('S','P',self.p4,'T',self.t4,self.ref)
         self.x4='       '
         self.cp4=PropsSI('C','P',self.p4,'T',self.t4,self.ref)
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t4),pa2bar(self.p4),self.v4,j2kj(self.h4),j2kj(self.s4),self.x4,self.InfoDict[name][1])
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t4),SI_TO('p',self.p4),self.v4,SI_TO('H',self.h4),SI_TO('S',self.s4),self.x4,self.InfoDict[name][1])
         #
         # Exit hx
         name='5'
@@ -376,17 +381,17 @@ class cpg_cycle2(myDialog):
             self.s5=PropsSI('S','P',self.p5,'T',self.t5,self.ref)
         self.x5='       '
         self.cp5=PropsSI('C','P',self.p5,'T',self.t5,self.ref)
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t5),pa2bar(self.p5),self.v5,j2kj(self.h5),j2kj(self.s5),self.x5,self.InfoDict[name][1]) 
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t5),SI_TO('p',self.p5),self.v5,SI_TO('H',self.h5),SI_TO('S',self.s5),self.x5,self.InfoDict[name][1]) 
         #
         # evaporator entry
         name='6'
-        self.p6=self.p7dew+bar2pa(self.dp0)
+        self.p6=self.p7dew+self.dp0
         self.t6=PropsSI('T','P',self.p6,'H',self.h5,self.ref)
         self.h6=self.h5
         self.v6=1/PropsSI('D','P',self.p6,'H',self.h6,self.ref)
         self.s6=PropsSI('S','P',self.p6,'H',self.h6,self.ref)
         self.x6=PropsSI('Q','P',self.p6,'H',self.h6,self.ref)
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t6),pa2bar(self.p6),self.v6,j2kj(self.h6),j2kj(self.s6),'%5.4f'%self.x6,self.InfoDict[name][1]) 
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t6),SI_TO('p',self.p6),self.v6,SI_TO('H',self.h6),SI_TO('S',self.s6),'%5.4f'%self.x6,self.InfoDict[name][1]) 
         #     
         # 
         name='3dewm4bub'
@@ -396,7 +401,7 @@ class cpg_cycle2(myDialog):
         self.v3dewm4bub=(self.v4bub+self.v3dew)/2
         self.s3dewm4bub=(self.s4bub+self.s3dew)/2
         self.x3dewm4bub='       '
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t3dewm4bub),pa2bar(self.p3dewm4bub),self.v3dewm4bub,j2kj(self.h3dewm4bub),j2kj(self.s3dewm4bub),self.x3dewm4bub,self.InfoDict[name][1])   
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t3dewm4bub),SI_TO('p',self.p3dewm4bub),self.v3dewm4bub,SI_TO('H',self.h3dewm4bub),SI_TO('S',self.s3dewm4bub),self.x3dewm4bub,self.InfoDict[name][1])   
         # 
         #
         name='6m7dew'
@@ -406,9 +411,9 @@ class cpg_cycle2(myDialog):
         self.v6m7dew=(self.v6+self.v7dew)/2
         self.s6m7dew=(self.s6+self.s7dew)/2
         self.x6m7dew='       '
-        self.row[name]=self.datarow%(self.InfoDict[name][0],K2C(self.t6m7dew),pa2bar(self.p6m7dew),self.v6m7dew,j2kj(self.h6m7dew),j2kj(self.s6m7dew),self.x6m7dew,self.InfoDict[name][1])
+        self.row[name]=self.datarow%(self.InfoDict[name][0],SI_TO('T',self.t6m7dew),SI_TO('p',self.p6m7dew),self.v6m7dew,SI_TO('H',self.h6m7dew),SI_TO('S',self.s6m7dew),self.x6m7dew,self.InfoDict[name][1])
         #
-        self.mdot=self.Q0*1000/(self.h7-self.h6)
+        self.mdot=SI_TO('P',self.Q0)*1000/(self.h7-self.h6)
         # average heat capacity of gas and liquid
         self.cpliq=(self.cp4 + self.cp5)/2000
         #print('cp4 %5.4f cp5 %5.4f cpliq %5.4f '%(self.cp4,self.cp4,self.cpliq))
@@ -435,12 +440,12 @@ class cpg_cycle2(myDialog):
         # relate massflux back to kW
         self.mdot=self.mdot/1000
         self.statetext+=_('\nPower calculations                      | Key performance values\n')
-        self.statetext+=_('Evaporator                 %8.2f kW  | Pressure ratio             %8.2f\n')%(self.Q0,(self.p2/self.p1))
-        self.statetext+=_('Condenser                  %8.2f kW  | Pressure difference        %8.2f bar\n')%(((self.h3-self.h4)*self.mdot),pa2bar(self.p2-self.p1))
+        self.statetext+=_('Evaporator                 %8.2f kW  | Pressure ratio             %8.2f\n')%(SI_TO('P',self.Q0),(self.p2/self.p1))
+        self.statetext+=_('Condenser                  %8.2f kW  | Pressure difference        %8.2f %s\n')%(((self.h3-self.h4)*self.mdot),SI_TO('p',self.p2-self.p1),GUI_UNIT('p'))
         self.statetext+=_('Suction line               %8.2f kW  | Mass flow                  %8.6f g/s \n')%(((self.h1-self.h8)*self.mdot),(self.mdot*1000*1000))
         self.statetext+=_('Discharge line             %8.2f kW  | Volume flow (suction line) %8.4f m³/h \n')%(((self.h2-self.h3)*self.mdot),(self.mdot*1000*3600*self.v1))
-        self.statetext+=_('Compressor                 %8.2f kW  | Volumetric capacity        %8.2f kJ/m³ \n')%(((self.h2-self.h1)*self.mdot),(self.Q0/(self.v1*self.mdot*1000)))
-        self.statetext+=_('Internal hx                %8.2f kW  | COP                        %8.2f \n')%(((self.h8-self.h7)*self.mdot),self.Q0/((self.h2-self.h1)*self.mdot))
+        self.statetext+=_('Compressor                 %8.2f kW  | Volumetric capacity        %8.2f kJ/m³ \n')%(((self.h2-self.h1)*self.mdot),(SI_TO('P',self.Q0)/(self.v1*self.mdot*1000)))
+        self.statetext+=_('Internal hx                %8.2f kW  | COP                        %8.2f \n')%(((self.h8-self.h7)*self.mdot),SI_TO('P',self.Q0)/((self.h2-self.h1)*self.mdot))
         #
         self.Text_1.delete(1.0, END)
         #self.statetext='I am not yet ready'     
