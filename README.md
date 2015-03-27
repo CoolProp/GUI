@@ -41,9 +41,8 @@ Next steps :
 # Installation with conda
 If you use the conda package manager for Python, you might these commands 
 useful. This is what I tried on a 32-bit Debian Linux machine:
-- conda create -n py3k python=3
+- conda create -n py3k python=3 Cython Pillow matplotlib numpy scipy six pip
 - source activate py3k
-- conda install Cython Pillow matplotlib numpy scipy six pip
 - pip install coolprop 
 - python cpgui.py 
 
