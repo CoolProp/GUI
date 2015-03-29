@@ -2,12 +2,8 @@
 #
 import sys
 
-if sys.version_info[0] < 3:
-    from Tkinter import *
-    import ttk
-else:
-    from tkinter import *
-    from tkinter import ttk
+from tkinter import *
+from tkinter import ttk
 
 import CoolProp
 from CoolProp.CoolProp import PropsSI
@@ -29,7 +25,7 @@ class cpg_cycle1(myDialog):
         self.Caller=Caller
         #
         # by module translations
-        self.language=self.Caller.get_language()
+        self.language=cpgui_language
         localedir=find_data_file('locale')
         self.lang = gettext.translation('cpg_cycle1', localedir=localedir, languages=[self.language])
         self.lang.install()
@@ -168,7 +164,7 @@ class cpg_cycle1(myDialog):
             if self.InputPanels[PanelKey][k][0] != ' ' :
                 self.InputPanels[PanelKey][k].append(StringVar())
                 outval=SI_TO(self.InputPanels[PanelKey][k][-2], self.InputPanels[PanelKey][k][1])
-                print('cycle 1 : GridInputPanel : SI_TO : ',outval)
+                #print('cycle 1 : GridInputPanel : SI_TO : ',outval)
                 #self.InputPanels[PanelKey][k][-1].set('%f'%self.InputPanels[PanelKey][k][1])
                 self.InputPanels[PanelKey][k][-1].set(outval)
                 self.InputPanels[PanelKey][k][-1].trace("w", lambda name, index, mode, var=self.InputPanels[PanelKey][k][-1],quantity=self.InputPanels[PanelKey][k][-2], key=k: self.GridInputPanelUpdate(var, key, quantity))
@@ -181,7 +177,7 @@ class cpg_cycle1(myDialog):
             i+=1
     #
     def GridInputPanelUpdate(self, sv,key,quantity):
-        print(sv, key, sv.get(),quantity)
+        #print(sv, key, sv.get(),quantity)
         #self.VarVal[key]=sv.get()
         try :
             self.VarVal[key]=TO_SI(quantity,float(sv.get().replace(',','.')))

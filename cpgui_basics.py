@@ -3,13 +3,8 @@
 import sys
 import gettext
 
-if sys.version_info[0] < 3:
-    from Tkinter import *
-    import ttk
-    from tkSimpleDialog import Dialog
-else:
-    from tkinter import *
-    from tkinter import ttk
+from tkinter import *
+from tkinter import ttk
 
 from cpgui_all import *
 
@@ -55,7 +50,7 @@ class cpgbasics(myDialog):
         fluids.sort()
         self.Caller=Caller
         # by module translations
-        self.language=self.Caller.get_language()
+        self.language=cpgui_language
         localedir=find_data_file('locale')
         self.lang = gettext.translation('cpgbasics', localedir=localedir, languages=[self.language])
         self.lang.install()

@@ -28,7 +28,7 @@ class cpgSatTable(myDialog):
         #
         self.Caller=Caller
         # by module translations
-        self.language=self.Caller.get_language()
+        self.language=cpgui_language
         localedir=find_data_file('locale')
         self.lang = gettext.translation('cpgSatTable', localedir=localedir, languages=[self.language])
         self.lang.install()

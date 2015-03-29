@@ -2,7 +2,8 @@
 #
 import sys
 import os
-import configparser
+import pickle
+import json
 import gettext
 #
 from tkinter import *
@@ -23,33 +24,55 @@ def find_data_file(filename):
         # The application is not frozen
         # Change this bit to match where you store your data files:
         datadir = os.path.dirname(__file__)
-
     return os.path.join(datadir, filename)  
+
 gui_unit={}
-cpgui_config = configparser.ConfigParser()
-cpgui_config.optionxform = str
-cpgui_inifile=find_data_file('cpgui.ini')
-cpgui_config.read(cpgui_inifile)
-try :
-    cpgui_language=cpgui_config['cpgui']['language']
-except KeyError :
-    # we create and fill the missing ini file
-    with open(cpgui_inifile, 'w') as configfile:
-        cpgui_config.add_section('cpgui')
-        cpgui_config['cpgui']['language'] = 'en'
-        cpgui_config.add_section('units')
-        
-        cpgui_config.write(configfile)
-    cpgui_config.read(cpgui_inifile)
-    cpgui_language=cpgui_config['cpgui']['language']
-# Now read units into gui_unit
-for quant in cpgui_config['units']:
-    gui_unit[quant]=cpgui_config['units'][quant]
+cpgui_config={}
 #
+myfile=find_data_file('cpgui.dat')
+try:
+    settingsfile = open(myfile)
+except FileNotFoundError:
+    print('cpgui.dat not found! ... creating file')
+    cpgui_config['cpgui']={}
+    cpgui_config['cpgui']['language'] = 'en'
+    cpgui_config['units']={}
+    cpgui_config['units']['T']  ='°C'
+    cpgui_config['units']['dT'] ='K'
+    cpgui_config['units']['p']  ='bar'
+    cpgui_config['units']['D']  ='kg/m³'
+    cpgui_config['units']['v']  ='m³/kg'
+    cpgui_config['units']['H']  ='kJ/kg'
+    cpgui_config['units']['S']  ='kJ/kg/K'
+    cpgui_config['units']['Q']  ='kg/kg'
+    cpgui_config['units']['P']  ='kW'
+    cpgui_config['units']['U']  ='kJ'
+    cpgui_config['units']['V']  ='m/s'
+    cpgui_config['units']['dv'] ='µPa s'
+    cpgui_config['units']['kv'] ='m²/s'
+    cpgui_config['units']['Cp'] ='kJ/kg/K'
+    cpgui_config['units']['Cv'] ='kJ/kg/K'
+    cpgui_config['units']['M']  ='kg/kmol'
+    cpgui_config['units']['c']  ='m/s'
+    cpgui_config['units']['kxa']='W/K'
+    cpgui_config['units']['eta']='1'
+    #
+    with open(myfile, 'wb') as datafile:
+        pickle.dump(cpgui_config,datafile)
+# We must have a configfile here!
+with open(myfile, 'rb') as configfile:
+            cpgui_config = pickle.load(configfile)
+# Now set language
+cpgui_language=cpgui_config['cpgui']['language']
 localedir=find_data_file('locale')
 cpgui_lang = gettext.translation('cpgui_all', localedir=localedir, languages=[cpgui_language],fallback=False)
 cpgui_lang.install()
-            
+
+# Now read units into gui_unit
+for quant in cpgui_config['units'].keys():
+    gui_unit[quant]=cpgui_config['units'][quant]
+    #print('Gui Unit for {} set to {} .'.format(quant,gui_unit[quant]))
+
 class myDialog(Dialog):
     # use dialogOptions dictionary to set any values in the dialog
     def __init__(self, parent, title = None,dialogOptions = None):
@@ -276,7 +299,7 @@ cpcode['Cp'] = 'C'
 cpcode['Cv'] = 'CVMASS'
 cpcode['M']  = 'M'
 cpcode['c']  = 'A'
-#
+# 
 def german_units():
     if 'units' in cpgui_config.sections() :
         pass
@@ -300,9 +323,10 @@ def german_units():
     cpgui_config['units']['Cv'] = units['Cv'][1]
     cpgui_config['units']['M'] = units['M'][1]
     cpgui_config['units']['c']  = units['c'][0]
-    
-    with open(cpgui_inifile, 'w') as configfile:
-        cpgui_config.write(configfile)
+    cpgui_config['units']['kxa']  = units['kxa'][0]
+    cpgui_config['units']['eta']  = units['eta'][0]
+    with open(myfile, 'wb') as datafile:
+        pickle.dump(cpgui_config,datafile)
     messagebox.showinfo( _('Units changed'), _('Units changed ! \nRestart GUI for Unit change to take effect!'))
 
 def si_units():
@@ -320,7 +344,7 @@ def si_units():
     cpgui_config['units']['S']  = units['S'][0]
     cpgui_config['units']['Q']  = units['Q'][0]
     cpgui_config['units']['P']  = units['P'][0]
-    cpgui_config['units']['U']  = units['U'][1]
+    cpgui_config['units']['U']  = units['U'][0]
     cpgui_config['units']['v']  = units['v'][0]
     cpgui_config['units']['dv'] = units['dv'][0]
     cpgui_config['units']['kv'] = units['kv'][0]
@@ -328,11 +352,17 @@ def si_units():
     cpgui_config['units']['Cv'] = units['Cv'][0]
     cpgui_config['units']['M'] = units['M'][0]
     cpgui_config['units']['c']  = units['c'][0]
-    
-    with open(cpgui_inifile, 'w') as configfile:
-        cpgui_config.write(configfile)
+    cpgui_config['units']['kxa']  = units['kxa'][0]
+    cpgui_config['units']['eta']  = units['eta'][0]
+    with open(myfile, 'wb') as datafile:
+        pickle.dump(cpgui_config,datafile)
     messagebox.showinfo( _('Units changed'), _('Units changed ! \nRestart GUI for Unit change to take effect!'))
 
+def save_settings():
+    with open(myfile, 'wb') as datafile:
+        pickle.dump(cpgui_config,datafile)
+    messagebox.showinfo( _('Major settings changed'), _('Settings changed ! \nRestart GUI for change to take effect!'))
+    
 def SI_UNIT(Quantity):
     return units[Quantity][0]
 
@@ -346,7 +376,7 @@ def TO_SI(Quantity,Value):
     if Quantity in cpgui_config['units'] :
         localunit=gui_unit[Quantity]
         if localunit in tosi.keys():
-            print('converting ',Value,GUI_UNIT(Quantity),' to ', tosi[localunit](Value) ,SI_UNIT(Quantity))
+            #print('converting ',Value,GUI_UNIT(Quantity),' to ', tosi[localunit](Value) ,SI_UNIT(Quantity))
             return tosi[localunit](Value)
         else:
             print('Error in tosi : No conversion for unit ',localunit,' defined')
@@ -357,20 +387,29 @@ def SI_TO(Quantity,Value):
     if Quantity in cpgui_config['units'] :
         localunit=gui_unit[Quantity]
         if localunit in sito.keys():
-            print('converting ',Value,SI_UNIT(Quantity),' to ', sito[localunit](Value) ,localunit)
+            #print('converting ',Value,SI_UNIT(Quantity),' to ', sito[localunit](Value) ,localunit)
             return sito[localunit](Value)
         else:
             print('Error in sito : No conversion for unit ',localunit,' defined')
     else :
         print('Error in get_SI : No unit for Quantity',Quantity,' defined')
         
+
         
 if __name__=='__main__':
     #
     print(refprop_mixname(['REFPROP::R134a','REFPROP::R1234ze'],[0.42,0.58]))
     print(refprop_mixname(['R125','R143a','R134a'],[0.44,0.52,0.04]))
     #
-    print(TO_SI('T', 300))
-    print(SI_TO('H', 300000))
+    #german_units()
+    #
+    print(type(tosi))
+    print(tosi['°C'](0))
+    print(sito['°C'](293.15))
+    print(TO_SI('T',0))
+    #print(SI_TO('H', 300000))
+
+
+            
     
     

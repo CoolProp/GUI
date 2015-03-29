@@ -4,12 +4,9 @@ import matplotlib
 matplotlib.use('TkAgg')
 import gettext
 import sys
-if sys.version_info[0] < 3:
-    from Tkinter import *
-    import ttk
-else:
-    from tkinter import *
-    from tkinter import ttk
+
+from tkinter import *
+from tkinter import ttk
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.backend_bases import key_press_handler
@@ -35,7 +32,7 @@ class cpgDiagram(myDialog):
         #
         self.Caller=Caller
         # by module translations
-        self.language=self.Caller.get_language()
+        self.language=cpgui_language
         localedir=find_data_file('locale')
         self.lang = gettext.translation('cpgDiagram', localedir=localedir, languages=[self.language])
         self.lang.install()

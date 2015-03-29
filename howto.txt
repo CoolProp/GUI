@@ -1,0 +1,51 @@
+
+Python install :
+
+Windows :
+
+If you do not have a binary package install the following :
+This manual is for python 32 bit
+Only use 64 bit if you find all packages for windows, numpy is sometimes difficult to get in 64 bit
+
+ 1. Download python 3.4.2 or later from https://www.python.org/
+    install it to e.G. C:\CPGUI_PY34 
+    (You do not need to set the path in the install options when asked)
+ 2. open a cmd and type 'cd c:'
+ 3. type 'cd \CPGUI_PY34\scripts'
+ 4. type 'mkdir downloads'
+ 5. type 'pip install wheel' (installs the wheel installer )
+ 6. Install other requirements with pip, type 'pip install pyparsing six pytz python-dateutil pillow' 
+ 6. Open your internet browser
+ 7. open the download site http://www.lfd.uci.edu/~gohlke/pythonlibs/
+ 8. download matplotlib‑1.4.3‑cp34‑none‑win_amd64.whl into directory c:\CPGUI_PY34\scripts\downloads
+ 9. download numpy binary from sourceforge http://sourceforge.net/projects/numpy/files/NumPy/1.9.2/numpy-1.9.2-win32-superpack-python3.4.exe/download
+10. Install numpy with double click on numpy-1.9.2-win32-superpack-python3.4.exe
+11. type 'wheel install downloads\matplotlib-1.4.3-cp34-none-win32.whl'
+12. download CoolProp from http://www.coolprop.dreamhosters.com:8010/binaries/Python/CoolProp-5.1.0.win32-py3.4.exe
+13. Install CoolProp with a double klick on CoolProp-5.1.0.win32-py3.4.exe
+14. Coolprop Plots require SciPy, download it from http://www.lfd.uci.edu/~gohlke/pythonlibs/    scipy-0.15.1-cp34-none-win32.whl
+15. copy it to the downloads folder
+16. type 'wheel install downloads\scipy-0.15.1-cp34-none-win32.whl
+
+If you want a windows binary install cx_freeze too :
+17. pip install cx_freeze
+	run 'python3 create_EXE.py build' to create a windows executable
+	DO NOT USE VIRTUALENV FOR CX_FREEZE OR NSIS
+	
+If you want to create a setup.exe for the binary :
+18. install NSIS 2.4.6 from http://nsis.sourceforge.net/Main_Page
+19. install HM NSIS EDIT from http://hmne.sourceforge.net/
+20. open the provided cpgui.nsis with the HM NSIS EDIT and compile it
+    result will be a setup.exe to install on windows
+
+
+Ubuntu :
+
+1. Check python3 version, type 'python3 --version' on a command line (terminal)
+2. If you get a version python 3 is already installed
+3. Use the provided requirements.txt file
+4. type 'pip3 install -r requirements.txt' (you need superuser privs)
+
+
+
+

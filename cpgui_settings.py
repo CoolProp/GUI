@@ -32,15 +32,10 @@ class cpg_settings(bDialog):
         #
         self.frameborder=1
         # by module translations
-        self.language=self.Caller.get_language()
+        self.language=cpgui_language
         localedir=find_data_file('locale')
         self.lang = gettext.translation('cpgui', localedir=localedir, languages=[self.language])
         self.lang.install()
-        #
-        self.config = configparser.ConfigParser()
-        self.config.optionxform = str
-        self.inifile=find_data_file('cpgui.ini')
-        self.config.read(cpgui_inifile)
         #
         self.InputFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text=_('Unit settings'),font=("Arial", 10, "bold"))
         self.InputFrame.grid(row=1,column=1,padx=8,pady=5,sticky=W)
@@ -86,7 +81,7 @@ class cpg_settings(bDialog):
         #print('SettingsInputPanelUpdate sv,key ',sv,key, sv.get())
         if self.initcomplete :
             self.SettingsPanel[key][-1].config(text=str(sv.get()),fg='red')
-            self.config['units'][key] = str(sv.get())
+            cpgui_config['units'][key] = str(sv.get())
 
     def tabChangedEvent(self,event):
         self.ref=self.Caller.get_ref()
@@ -94,9 +89,7 @@ class cpg_settings(bDialog):
     def calculate(self,event):
         #
         if self.initcomplete :
-            with open(self.inifile, 'w') as configfile:
-                self.config.write(configfile)
-            messagebox.showinfo( _("Units changed"), _("Units changed! Restart GUI to avoid unwanted effects!"))
+            save_settings()
             
     def Update(self):
         #

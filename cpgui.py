@@ -42,11 +42,7 @@ class CPGUI(Frame):
             self.master.geometry('1000x800')
             self.master.title('Coolprop GUI')
             #
-            self.config = configparser.ConfigParser()
-            self.config.optionxform = str
-            self.inifile=find_data_file('cpgui.ini')
-            self.config.read(self.inifile)
-            self.language=self.config['cpgui']['language']
+            self.language=cpgui_language
             #
             localedir=find_data_file('locale')
             self.lang = gettext.translation('cpgui', localedir=localedir, languages=[self.language],fallback=False)
@@ -152,10 +148,8 @@ class CPGUI(Frame):
     
     def set_language(self,lang):
         if self.initcomplete :
-            self.config['cpgui']['language'] = lang 
-            with open(self.inifile, 'w') as configfile:
-                self.config.write(configfile)
-            messagebox.showinfo( _("Language changed to %s ")%lang, _("Restart GUI for language change to take effect!"))
+            cpgui_config['cpgui']['language'] = lang 
+            save_settings()
                 
     def bindConfigure(self, event):
         if not self.initComplete:
