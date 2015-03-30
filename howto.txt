@@ -46,6 +46,17 @@ Ubuntu :
 3. Use the provided requirements.txt file
 4. type 'pip3 install -r requirements.txt' (you need superuser privs)
 
+using a virtualenv :
+1. check if cython is installed, type 
+2. type cython --version
+3. If cython is not installed install it using your software manager/packet manager
+4. set up a virtualenv (into the directory GUI or wherever you want it)
+   type virtualenv --no-site-packages --distribute -p /usr/bin/python3 GUI
+5. type source GUI/bin/activate
+6. type pip install -r requirements.txt
+7. type cd GUI
+8. git clone https://github.com/CoolProp/GUI
+9. type python GUI/cpgui.py and the CoolProp GUI will start
 
 
 
