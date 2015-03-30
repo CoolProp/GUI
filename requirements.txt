@@ -1,11 +1,11 @@
 --extra-index-url http://www.coolprop.dreamhosters.com:8010/binaries/Python/
-CoolProp>=5.1.0
-matplotlib>=1.4.3
-numpy>=1.9.2
+CoolProp
+matplotlib
+numpy
 Pillow>=2.7.0
-pyparsing>=2.0.3
-python-dateutil>=2.4.1
-pytz>=2015.2
-scipy>=0.15.1
-six>=1.9.0
+pyparsing
+python-dateutil
+pytz
+scipy
+six
 
