@@ -27,7 +27,7 @@ class cpgStatepoint(myDialog):
         self.language=cpgui_language
         #print('Statepoint lang : ',self.language)
         localedir=find_data_file('locale')
-        self.lang = gettext.translation('cpgStatepoint', localedir=localedir, languages=[self.language])
+        self.lang = gettext.translation('cpgStatePoint', localedir=localedir, languages=[self.language])
         self.lang.install()
         #
         self.ref=Caller.get_ref()

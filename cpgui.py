@@ -8,6 +8,7 @@ import numpy as np
 
 np.seterr(divide='ignore', invalid='ignore')
 #
+import tkinter
 from tkinter import filedialog, simpledialog
 from tkinter import messagebox
 from tkinter import *
@@ -187,7 +188,7 @@ if __name__ == '__main__':
     cpgui_icon=find_data_file('CoolPropLogo.ico')
     try :
         root.call('wm', 'iconbitmap', root._w, '-default', cpgui_icon)
-    except tkinter.Tclerror :
+    except tkinter.TclError :
         pass
         # On Ubuntu we ignore the .ico file for now
     CPGUI(root)
