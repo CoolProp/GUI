@@ -136,7 +136,10 @@ class cpgStatepoint(myDialog):
          
     def Line1E1_StringVar_Callback(self, varName, index, mode):
         #
-        pass
+        try :
+            self.Value1=TO_SI(self.Quantity1,float(self.Line1E1_StringVar.get().replace(',','.')))
+        except ValueError :
+            pass
 
     def Line2S1_StringVar_Callback(self, varName, index, mode):
         #
@@ -153,7 +156,10 @@ class cpgStatepoint(myDialog):
                  
     def Line2E1_StringVar_Callback(self, varName, index, mode):
         #
-        pass
+        try:
+            self.Value2=TO_SI(self.Quantity2,float(self.Line2E1_StringVar.get().replace(',','.')))
+        except ValueError :
+            pass
         
     def calculate(self,event):
         #
@@ -162,6 +168,7 @@ class cpgStatepoint(myDialog):
         self.Text_1.delete(1.0, END)
         self.ref=self.Caller.get_ref()
         #
+        
         for k in self.symbols:
             try :
                 self.OutVal[k]=SI_TO(k,PropsSI(cpcode[k],cpcode[self.Quantity1],self.Value1,cpcode[self.Quantity2],self.Value2,self.ref))
