@@ -1,4 +1,3 @@
---extra-index-url http://www.coolprop.dreamhosters.com:8010/binaries/Python/
 CoolProp
 matplotlib
 numpy
