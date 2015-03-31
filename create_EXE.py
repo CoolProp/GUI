@@ -2,7 +2,7 @@
 """
 Created on Mon 02 of Feb 10:42:17 2015
 
-Build script zum erstellen einer lauff�higen .exe
+Build script to create a Windows .exe file
 
 @author: mayers
 """
@@ -52,7 +52,7 @@ cpgui = Executable(
 
 setup(
         name = "CoolProp GUI",
-        version = "0.1",
+        version = "1.0",
         author = 'Reiner Mayers',
         description = "GUI for Coolprop",
         options={"build_exe": build_exe_options},
