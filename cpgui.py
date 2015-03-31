@@ -184,7 +184,7 @@ if __name__ == '__main__':
     if sys.version_info[0] < 3:
         import Tkinter
         from Tkinter import *
-        print "Coolprop GUI requires Python 3 or later!"
+        print("Coolprop GUI requires Python 3 or later!")
         top = Tkinter.Tk()
         AlarmLabel = Label(top,text="Coolprop GUI requires Python 3 or later!",font=("Arial",22) )
         AlarmLabel.grid(row=1,column=0,padx=8,columnspan=5,sticky=W,pady=5)
