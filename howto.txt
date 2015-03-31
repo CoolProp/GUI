@@ -58,5 +58,12 @@ using a virtualenv :
 8. git clone https://github.com/CoolProp/GUI
 9. type python GUI/cpgui.py and the CoolProp GUI will start
 
+Additional hint for Pillow :
 
+The TK toolkit is the library behind tkinter.
+Pillow/tkinter imaging requires a proper TK library to work, usually it is in the Python distribution.
+If you see errors from PIL / Pillow containing tk.call, tk , tkinter and so on, install Pillow 
+from a binary that contains everything neccessary (http://www.lfd.uci.edu/~gohlke/pythonlibs/) or 
+install the latest tcl/tk development kit from your distribution or from active state and then
+recompile/reinstall Pillow. On Ubuntu and OS/X I use tcl/tk 8.6 dev kits
 
