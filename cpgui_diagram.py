@@ -23,7 +23,22 @@ from CoolProp.Plots import PropsPlot
 import numpy as np
 
 from cpgui_all import *
- 
+#
+def pa2bar(pascal):
+    return pascal/100000.0
+
+def bar2pa(bar):
+    return bar*100000
+
+def j2kj(joule):
+    return joule/1000.0
+
+def C2K(temperatur):
+    return temperatur+273.15
+
+def K2C(temperatur):
+    return temperatur-273.15
+#
 class cpgDiagram(myDialog):
     
     def __init__(self, GridFrame,Caller):
