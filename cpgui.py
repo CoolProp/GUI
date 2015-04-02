@@ -24,12 +24,30 @@ else :
     from cpgui_cycle2 import cpg_cycle2
     
     class CPGUI(Frame):
-        def __init__(self,parent):
-                Frame.__init__(self)
+        def __init__(self,root):
+                Frame.__init__(self,root)
+                # Create Canvas and frame using all the canvas
+                self.canvas = Canvas(root, borderwidth=0, background="#ffffff")
+                self.frame = Frame(self.canvas, background="#ffffff")
+                # Create the scrollbars
+                self.vsb = Scrollbar(root, orient="vertical", command=self.canvas.yview)
+                self.hsb = Scrollbar(root, orient="horizontal", command=self.canvas.xview)
+                # Always adjust length of the scrollbars
+                self.canvas.configure(yscrollcommand=self.vsb.set)
+                self.canvas.configure(xscrollcommand=self.hsb.set)
+                # pack them into their corners
+                self.vsb.pack(side="right", fill="y")
+                self.hsb.pack(side="bottom", fill="x")
+                # pack canvas into window and create it 
+                self.canvas.pack(side="left", fill="both", expand=True)
+                self.canvas.create_window((4,4), window=self.frame, anchor="nw",tags="self.frame")
+                # Changing size will call method
+                self.frame.bind("<Configure>", self.OnFrameConfigure)                
+                #
                 self.initcomplete=False
                 self.ref=' '
                 self.tkref=StringVar()
-                self.parent=parent
+                self.root=root
                 
                 self.set_ref('R134a')
     
@@ -47,8 +65,8 @@ else :
                 self.lang = gettext.translation('cpgui', localedir=localedir, languages=[self.language],fallback=False)
                 self.lang.install()
                 #
-                self.grid()
-                self.master.columnconfigure(0, weight=1)
+                #self.grid()
+                #self.master.columnconfigure(0, weight=1)
                 #
                 # Menu
                 #
@@ -72,11 +90,12 @@ else :
                 self.menu.add_cascade(label=_("Help"), menu=helpmenu)
                 helpmenu.add_command(label=_('About...'), command = self.about )
                 
-                self.NotebookFrame=Frame(self.master)
-                self.TitleFrame=Frame(self.master)
-                self.NotebookFrame.grid(row=1, column=0, columnspan=20,rowspan=20,sticky=W+E)
-                self.TitleFrame.grid(row=0, column=0, columnspan=20,sticky=W+E)
-                
+                self.NotebookFrame=Frame(self.frame)
+                self.TitleFrame=Frame(self.frame)
+                #self.NotebookFrame.grid(row=1, column=0, columnspan=20,rowspan=20,sticky=W+E)
+                #self.TitleFrame.grid(row=0, column=0, columnspan=20,sticky=W+E)
+                self.TitleFrame.pack(side="top", fill="x", expand=True)
+                self.NotebookFrame.pack(side="bottom", fill="both", expand=True)
                 self.TitleLabel = Label(self.TitleFrame,textvariable=self.tkref,font=("Arial", 8) )
                 self.TitleLabel.grid(row=0,column=0,padx=8,columnspan=5,sticky=W,pady=5)
             
@@ -131,6 +150,10 @@ else :
                 self.notebook.bind_all("<<NotebookTabChanged>>", self.tabChangedEvent)
                 self.initcomplete=True
                 self.mainloop()
+
+        def OnFrameConfigure(self, event):
+            '''Reset the scroll region to encompass the inner frame'''
+            self.canvas.configure(scrollregion=self.canvas.bbox("all"))
             
         def about(self):
             messagebox.showinfo(_("About"), "Coolprop GUI 0.3 (c) Reiner J. Mayers 2015")
