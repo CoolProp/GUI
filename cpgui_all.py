@@ -56,6 +56,8 @@ except FileNotFoundError:
     cpgui_config['units']['c']  ='m/s'
     cpgui_config['units']['kxa']='W/K'
     cpgui_config['units']['eta']='1'
+    cpgui_config['debug']={}
+    cpgui_config['debug']['ShowPanel'] = True
     #
     with open(myfile, 'wb') as datafile:
         pickle.dump(cpgui_config,datafile)
@@ -394,7 +396,12 @@ def SI_TO(Quantity,Value):
     else :
         print('Error in get_SI : No unit for Quantity',Quantity,' defined')
         
-
+class RedirectText():
+    def __init__(self, text_ctrl):
+        self.output = text_ctrl
+    
+    def write(self, string):
+        self.output.insert(END, string)
         
 if __name__=='__main__':
     #

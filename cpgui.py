@@ -102,6 +102,7 @@ else :
                 self.notebook = ttk.Notebook(self.NotebookFrame)
                 self.notebook.pack(fill = 'both', expand = 1, padx = 5, pady = 5)
                 #
+                self.debugframe   = ttk.Frame(self.NotebookFrame)
                 self.dialogframe0 = ttk.Frame(self.NotebookFrame)
                 self.dialogframe1 = ttk.Frame(self.NotebookFrame)
                 self.dialogframe2 = ttk.Frame(self.NotebookFrame)
@@ -111,6 +112,7 @@ else :
                 self.dialogframe6 = ttk.Frame(self.NotebookFrame)
                 self.dialogframe7 = ttk.Frame(self.NotebookFrame)
                 #
+                self.nbdbg_text=_('Messages')
                 self.nb0_text=_('Settings')
                 self.nb1_text=_('Select fluid')
                 self.nb2_text=_('State Point')
@@ -119,6 +121,18 @@ else :
                 self.nb5_text=_('SimpleCycle')
                 self.nb6_text=_('Cycle with heat exchanger')
                 #
+                if cpgui_config['debug']['ShowPanel'] :
+                    self.notebook.add(self.debugframe,text=self.nbdbg_text)
+                    # Debug box
+                    scrollbar_dbg = Scrollbar(self.debugframe, orient=VERTICAL)
+                    self.dbg_box = Text(self.debugframe, yscrollcommand=scrollbar_dbg.set)
+                    scrollbar_dbg.config(command=self.dbg_box.yview)
+                    scrollbar_dbg.pack(side=RIGHT, fill=Y)
+                    self.dbg_box.pack(side=LEFT, fill=BOTH, expand=1)
+                    mydebug = RedirectText(self.dbg_box)
+                    sys.stdout = mydebug
+                    sys.stderr = mydebug
+                    
                 self.notebook.add(self.dialogframe0,text=self.nb0_text)
                 self.cpgsettings=cpg_settings(self.dialogframe0,self)
                 
@@ -146,11 +160,14 @@ else :
                 The Update method can be called on selection of the tab, see tabChangedEvent below
                 Create translation .pot file e.g. python \Py34_64\Tools\i18n\pygettext.py -d de -o cpgSatTable.pot cpgui_sattable.py
                 '''
-                self.notebook.select(1)
+                if cpgui_config['debug']['ShowPanel'] :
+                    self.notebook.select(2)
+                else :
+                    self.notebook.select(1)
                 self.notebook.bind_all("<<NotebookTabChanged>>", self.tabChangedEvent)
                 self.initcomplete=True
                 self.mainloop()
-
+                
         def OnFrameConfigure(self, event):
             '''Reset the scroll region to encompass the inner frame'''
             self.canvas.configure(scrollregion=self.canvas.bbox("all"))

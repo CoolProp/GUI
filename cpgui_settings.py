@@ -72,9 +72,21 @@ class cpg_settings(bDialog):
             #self.SettingsPanel[quant].append(LU)
             srow+=1  
         #
+        if cpgui_config['debug']['ShowPanel'] :
+            toggletext=_('Message Panel will be shown' )
+        else :
+            toggletext=_('Message Panel will be hidden' )
+            
+        self.Button_2 = Button(GridFrame,text=toggletext)
+        self.Button_2.grid(row=srow,rowspan=1,column=2,pady=5,sticky=W,padx=8)
+        self.Button_2.bind("<ButtonRelease-1>", self.dbg_toggle)
+        #
+        srow+=1
         self.Button_1 = Button(GridFrame,text=_('Save for startup' ))
         self.Button_1.grid(row=srow,rowspan=1,column=1,pady=5,sticky=W,padx=8)
-        self.Button_1.bind("<ButtonRelease-1>", self.calculate)                          
+        self.Button_1.bind("<ButtonRelease-1>", self.calculate)
+        #
+                                  
         
     #
     def SettingsInputPanelUpdate(self, sv,key):
@@ -90,7 +102,19 @@ class cpg_settings(bDialog):
         #
         if self.initcomplete :
             save_settings()
+
+    def dbg_toggle(self,event):
+        #
+        if self.initcomplete :
+            if cpgui_config['debug']['ShowPanel'] :
+                cpgui_config['debug']['ShowPanel'] = False
+                toggletext=_('Message Panel will be hidden' )
+            else :
+                cpgui_config['debug']['ShowPanel'] = True
+                toggletext=_('Message Panel will be shown' )
+        self.Button_2.config(text=toggletext)
             
+                                    
     def Update(self):
         #
         pass
