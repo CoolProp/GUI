@@ -24,6 +24,10 @@ else :
     from cpgui_cycle2 import cpg_cycle2
     
     class CPGUI(Frame):
+        
+        def leave(self):
+            self.root.destroy()
+        
         def __init__(self,root):
                 Frame.__init__(self,root)
                 # Create Canvas and frame using all the canvas
