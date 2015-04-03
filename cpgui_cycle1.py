@@ -346,6 +346,7 @@ class cpg_cycle1(myDialog):
         #
         self.Text_1.delete(1.0, END)
         self.Text_1.insert(END, self.statetext)
+        self.out_nb.select(1)
 
         
     def Update(self):

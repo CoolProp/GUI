@@ -446,6 +446,7 @@ class cpg_cycle2(myDialog):
         self.Text_1.delete(1.0, END)
         #self.statetext='I am not yet ready'     
         self.Text_1.insert(END, self.statetext)
+        self.out_nb.select(1)
 
         
     def Update(self):
