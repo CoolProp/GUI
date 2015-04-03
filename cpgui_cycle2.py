@@ -73,7 +73,7 @@ class cpg_cycle2(myDialog):
                                             'row':2,
                                             'col':2,
                                             'order':['hx_kxa','hx_dp'],
-                                            'hx_kxa':['K x A Value',self.VarVal['hx_kxa'],GUI_UNIT('kxa'),'kxa'],
+                                            'hx_kxa':[_('K x A Value'),self.VarVal['hx_kxa'],GUI_UNIT('kxa'),'kxa'],
                                             'hx_dp':[_('Gas pressure drop'),self.VarVal['hx_dp'],GUI_UNIT('p'),'p'],}
                               }
         #
