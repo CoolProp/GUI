@@ -55,7 +55,15 @@ class cpg_settings(bDialog):
     def SettingsInputPanel(self,GridFrame,Debug=False,tfont=("Arial", 10, "bold"),font=("Arial", 10)):
         #
         srow=2
-        for quant in sorted(units.keys()) :
+        ordered_keys=['T','dT','p','D','v','H','S', 'Q', 'P', 'U', 'V', 'dv','kv','Cp','Cv','M', 'c', 'kxa', 'eta']
+        one=len(ordered_keys)
+        two=len(sorted(units.keys()))
+        if one==two :
+            mylist=ordered_keys
+        else:
+            mylist=sorted(units.keys())
+            print('\nUnordered settings error : Length of ordered keys doesn\'t match number of quantities. edit ordered_keys in cpgui_settings.py to fix\n')
+        for quant in mylist :
             self.SettingsPanel[quant] = []
             Label(GridFrame,text='{:<27}'.format(label[quant]),font=font ).grid(row=srow,column=1,padx=8,sticky=W,pady=5)
             self.SettingsPanel[quant].append(StringVar())
