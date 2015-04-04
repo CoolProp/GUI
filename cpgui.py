@@ -27,7 +27,8 @@ else :
         
         def leave(self):
             self.root.destroy()
-        
+            self.root.quit()
+    
         def __init__(self,root):
                 Frame.__init__(self,root)
                 # Create Canvas and frame using all the canvas
@@ -81,7 +82,7 @@ else :
                 filemenu = Menu(self.menu, tearoff=False)
                 self.menu.add_cascade(label=_('File'), menu = filemenu)
                 filemenu.add_separator()
-                filemenu.add_command(label=_('Quit'), command = self.quit)
+                filemenu.add_command(label=_('Quit'), command = self.leave)
                 #Options menu
                 setmenu = Menu(self.menu, tearoff=False)
                 self.menu.add_cascade(label=_("Settings"), menu=setmenu)
@@ -241,7 +242,7 @@ if __name__ == '__main__':
             root.call('wm', 'iconbitmap', root._w, '-default', cpgui_icon)
         except tkinter.TclError :
             pass
-            # On Ubuntu we ignore the .ico file for now
+            # On Ubuntu we ignore the .ico file for now 
         CPGUI(root)
 
 
