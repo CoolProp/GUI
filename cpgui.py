@@ -26,17 +26,17 @@ else :
     class CPGUI(Frame):
         
         def leave(self):
-            self.root.destroy()
-            self.root.quit()
+            self.master.destroy()
+            self.master.quit()
     
-        def __init__(self,root):
-                Frame.__init__(self,root)
+        def __init__(self,master=None):
+                Frame.__init__(self,master)
                 # Create Canvas and frame using all the canvas
-                self.canvas = Canvas(root, borderwidth=0, background="#ffffff")
+                self.canvas = Canvas(master, borderwidth=0, background="#ffffff")
                 self.frame = Frame(self.canvas, background="#ffffff")
                 # Create the scrollbars
-                self.vsb = Scrollbar(root, orient="vertical", command=self.canvas.yview)
-                self.hsb = Scrollbar(root, orient="horizontal", command=self.canvas.xview)
+                self.vsb = Scrollbar(master, orient="vertical", command=self.canvas.yview)
+                self.hsb = Scrollbar(master, orient="horizontal", command=self.canvas.xview)
                 # Always adjust length of the scrollbars
                 self.canvas.configure(yscrollcommand=self.vsb.set)
                 self.canvas.configure(xscrollcommand=self.hsb.set)
@@ -52,7 +52,7 @@ else :
                 self.initcomplete=False
                 self.ref=' '
                 self.tkref=StringVar()
-                self.root=root
+                self.master=master
                 
                 self.set_ref('R134a')
     
@@ -171,7 +171,6 @@ else :
                     self.notebook.select(1)
                 self.notebook.bind_all("<<NotebookTabChanged>>", self.tabChangedEvent)
                 self.initcomplete=True
-                self.mainloop()
                 
         def OnFrameConfigure(self, event):
             '''Reset the scroll region to encompass the inner frame'''
@@ -243,6 +242,7 @@ if __name__ == '__main__':
         except tkinter.TclError :
             pass
             # On Ubuntu we ignore the .ico file for now 
-        CPGUI(root)
+        mygui=CPGUI(master=root)
+        mygui.mainloop()
 
 

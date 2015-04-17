@@ -164,11 +164,22 @@ class cpgDiagram(myDialog):
         elif dia=="Ph" :
             self.ax.cla()
             #
-            Pmin=50000
-            Tmin=PropsSI('T','P',Pmin,'Q',1,self.ref)
+            try :
+                Pmin=PropsSI(self.ref,'ptriple')
+            except ValueError :    
+                Pmin=50000
+            try :
+                Tmin=PropsSI('T','P',Pmin,'Q',1,self.ref)
+            except ValueError :
+                print('Value error, setting Tmin to 0°C')
+                Tmin=273.15
             Tmax=(220+273.15)
             Hmax=PropsSI('H','P',Pmin,'T',Tmax,self.ref)
-            Hmin=PropsSI('H','P',Pmin,'Q',0,self.ref)-10000
+            try :
+                Hmin=PropsSI('H','P',Pmin,'Q',0,self.ref)-10000
+            except ValueError :
+                print('Value error, setting Hmin to 200000')
+                Hmin=0
             Pmax=PropsSI(self.ref,'pcrit')*1.01
             #x-axis
             self.ax.xaxis.grid(True,which='both',color=self.h_color)
