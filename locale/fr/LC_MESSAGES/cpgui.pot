@@ -1,0 +1,81 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2015-03-24 12:55+Mitteleuropäische Zeit\n"
+"PO-Revision-Date: 2015-03-24 13:01+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1252\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"X-Generator: Poedit 1.7.5\n"
+
+#: cpgui.py:73
+msgid "File"
+msgstr ""
+
+#: cpgui.py:75
+msgid "Quit"
+msgstr ""
+
+#: cpgui.py:78
+msgid "Settings"
+msgstr ""
+
+#: cpgui.py:80
+msgid "English"
+msgstr ""
+
+#: cpgui.py:81
+msgid "German"
+msgstr ""
+
+#: cpgui.py:84
+msgid "Help"
+msgstr ""
+
+#: cpgui.py:85
+msgid "About..."
+msgstr ""
+
+#: cpgui.py:106
+msgid "Select fluid"
+msgstr ""
+
+#: cpgui.py:109
+msgid "State Point"
+msgstr ""
+
+#: cpgui.py:112 cpgui.py:182
+msgid "Saturation table"
+msgstr ""
+
+#: cpgui.py:115
+msgid "Diagrams"
+msgstr ""
+
+#: cpgui.py:118
+msgid "SimpleCycle"
+msgstr ""
+
+#: cpgui.py:122
+msgid "Cycle with heat exchanger"
+msgstr ""
+
+#: cpgui.py:136
+msgid "About"
+msgstr ""
+
+#: cpgui.py:153
+msgid "Language changed to %s "
+msgstr ""
+
+#: cpgui.py:153
+msgid "Restart GUI for language change to take effect!"
+msgstr ""

@@ -308,25 +308,30 @@ def german_units():
     else :
         cpgui_config.add_section('units')
     #
-    cpgui_config['units']['T']  = units['T'][1]
-    cpgui_config['units']['dT']  = units['dT'][0]
-    cpgui_config['units']['p']  = units['p'][2]
-    cpgui_config['units']['D']  = units['D'][0]
-    cpgui_config['units']['v']  = units['v'][0]
-    cpgui_config['units']['H']  = units['H'][1]
-    cpgui_config['units']['S']  = units['S'][1]
-    cpgui_config['units']['Q']  = units['Q'][0]
-    cpgui_config['units']['P']  = units['P'][0]
-    cpgui_config['units']['U']  = units['U'][1]
-    cpgui_config['units']['V']  = units['V'][0]
-    cpgui_config['units']['dv'] = units['dv'][1]
-    cpgui_config['units']['kv'] = units['kv'][0]
-    cpgui_config['units']['Cp'] = units['Cp'][1]
-    cpgui_config['units']['Cv'] = units['Cv'][1]
-    cpgui_config['units']['M'] = units['M'][1]
-    cpgui_config['units']['c']  = units['c'][0]
-    cpgui_config['units']['kxa']  = units['kxa'][0]
-    cpgui_config['units']['eta']  = units['eta'][0]
+    cpgui_config['cpgui']={}
+    cpgui_config['cpgui']['language'] = 'de'
+    cpgui_config['units']={}
+    cpgui_config['units']['T']  ='°C'
+    cpgui_config['units']['dT'] ='K'
+    cpgui_config['units']['p']  ='bar'
+    cpgui_config['units']['D']  ='kg/m³'
+    cpgui_config['units']['v']  ='m³/kg'
+    cpgui_config['units']['H']  ='kJ/kg'
+    cpgui_config['units']['S']  ='kJ/kg/K'
+    cpgui_config['units']['Q']  ='kg/kg'
+    cpgui_config['units']['P']  ='kW'
+    cpgui_config['units']['U']  ='kJ'
+    cpgui_config['units']['V']  ='m/s'
+    cpgui_config['units']['dv'] ='µPa s'
+    cpgui_config['units']['kv'] ='m²/s'
+    cpgui_config['units']['Cp'] ='kJ/kg/K'
+    cpgui_config['units']['Cv'] ='kJ/kg/K'
+    cpgui_config['units']['M']  ='kg/kmol'
+    cpgui_config['units']['c']  ='m/s'
+    cpgui_config['units']['kxa']='W/K'
+    cpgui_config['units']['eta']='1'
+    cpgui_config['debug']={}
+    cpgui_config['debug']['ShowPanel'] = True
     with open(myfile, 'wb') as datafile:
         pickle.dump(cpgui_config,datafile)
     messagebox.showinfo( _('Units changed'), _('Units changed ! \nRestart GUI for Unit change to take effect!'))
@@ -337,25 +342,30 @@ def si_units():
     else :
         cpgui_config.add_section('units')
     #
-    cpgui_config['units']['T']  = units['T'][0]
-    cpgui_config['units']['dT']  = units['dT'][0]
-    cpgui_config['units']['p']  = units['p'][0]
-    cpgui_config['units']['D']  = units['D'][0]
-    cpgui_config['units']['V']  = units['V'][0]
-    cpgui_config['units']['H']  = units['H'][0]
-    cpgui_config['units']['S']  = units['S'][0]
-    cpgui_config['units']['Q']  = units['Q'][0]
-    cpgui_config['units']['P']  = units['P'][0]
-    cpgui_config['units']['U']  = units['U'][0]
-    cpgui_config['units']['v']  = units['v'][0]
-    cpgui_config['units']['dv'] = units['dv'][0]
-    cpgui_config['units']['kv'] = units['kv'][0]
-    cpgui_config['units']['Cp'] = units['Cp'][0]
-    cpgui_config['units']['Cv'] = units['Cv'][0]
-    cpgui_config['units']['M'] = units['M'][0]
-    cpgui_config['units']['c']  = units['c'][0]
-    cpgui_config['units']['kxa']  = units['kxa'][0]
-    cpgui_config['units']['eta']  = units['eta'][0]
+    cpgui_config['cpgui']={}
+    cpgui_config['cpgui']['language'] = 'en'
+    cpgui_config['units']={}
+    cpgui_config['units']['T']  ='K'
+    cpgui_config['units']['dT'] ='K'
+    cpgui_config['units']['p']  ='Pa'
+    cpgui_config['units']['D']  ='kg/m³'
+    cpgui_config['units']['v']  ='m³/kg'
+    cpgui_config['units']['H']  ='J/kg'
+    cpgui_config['units']['S']  ='J/kg/K'
+    cpgui_config['units']['Q']  ='kg/kg'
+    cpgui_config['units']['P']  ='kW'
+    cpgui_config['units']['U']  ='J'
+    cpgui_config['units']['V']  ='m/s'
+    cpgui_config['units']['dv'] ='Pa s'
+    cpgui_config['units']['kv'] ='m²/s'
+    cpgui_config['units']['Cp'] ='J/kg/K'
+    cpgui_config['units']['Cv'] ='J/kg/K'
+    cpgui_config['units']['M']  ='kg/kmol'
+    cpgui_config['units']['c']  ='m/s'
+    cpgui_config['units']['kxa']='W/K'
+    cpgui_config['units']['eta']='1'
+    cpgui_config['debug']={}
+    cpgui_config['debug']['ShowPanel'] = True
     with open(myfile, 'wb') as datafile:
         pickle.dump(cpgui_config,datafile)
     messagebox.showinfo( _('Units changed'), _('Units changed ! \nRestart GUI for Unit change to take effect!'))
