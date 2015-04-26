@@ -39,11 +39,29 @@ Next steps :
 
 
 # Installation with conda
+
+Please be aware that in some conda packages like pillow and matplotlib the tkinter support is broken.
+These packages must be installed from another source to make tk/tkinter work.
+
 If you use the conda package manager for Python, you might these commands 
 useful. This is what I tried on a 32-bit Debian Linux machine:
-- conda create -n py3k python=3 Cython Pillow matplotlib numpy scipy six pip
+
+- conda create -n py3k python=3 Cython numpy scipy six pip
 - source activate py3k
-- pip install coolprop 
+- pip install pillow matplotlib
+- pip install coolprop
 - python cpgui.py 
 
-... and you should be up and running ... or stuck with a Tk problem like me.
+... and you should be up and running
+
+On Windows this will do (example) :
+
+conda create -n cpgui33 python=3.3
+activate cpgui33
+conda install -n cpgui33 scipy
+pip install --find-links http://www.lfd.uci.edu/~gohlke/pythonlibs/ -U --force-reinstall pillow matplotlib
+pip install CoolProp
+python cpgui.py
+
+
+
