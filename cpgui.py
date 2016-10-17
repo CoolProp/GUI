@@ -150,8 +150,8 @@ else :
                 self.notebook.add(self.dialogframe3,text=self.nb3_text)
                 self.cpgtable1=cpgSatTable(self.dialogframe3,self)
                 
-                self.notebook.add(self.dialogframe4,text=self.nb4_text)
-                self.cpgDiagram1=cpgDiagram(self.dialogframe4,self)
+                #self.notebook.add(self.dialogframe4,text=self.nb4_text)
+                #self.cpgDiagram1=cpgDiagram(self.dialogframe4,self)
                 
                 self.notebook.add(self.dialogframe5,text=self.nb5_text)
                 self.cpgNewClass=cpg_cycle1(self.dialogframe5,self)

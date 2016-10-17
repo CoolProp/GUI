@@ -16,9 +16,9 @@ import matplotlib.lines  as mpllines
 
 import CoolProp
 from CoolProp.CoolProp import PropsSI
-from CoolProp.Plots.Plots import PT,Ph,Prho,Ps,Trho,Ts,hs, drawIsoLines
-from CoolProp.Plots import PsychChart
-from CoolProp.Plots import PropsPlot
+#from CoolProp.Plots.Plots import PT,Ph,Prho,Ps,Trho,Ts,hs, drawIsoLines
+#from CoolProp.Plots import PsychChart
+#from CoolProp.Plots import PropsPlot
 
 import numpy as np
 
