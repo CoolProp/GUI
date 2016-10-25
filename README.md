@@ -57,11 +57,17 @@ useful. This is what I tried on a 32-bit Debian Linux machine:
 On Windows this will do (example) :
 
 conda create -n cpgui33 python=3.3
+
 activate cpgui33
+
 conda install -n cpgui33 scipy
+
 pip install --find-links http://www.lfd.uci.edu/~gohlke/pythonlibs/ -U --force-reinstall pillow matplotlib
+
 pip install CoolProp
+
 python cpgui.py
+
 
 
 
