@@ -1,0 +1,202 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2015-03-24 13:56+Mitteleuropäische Zeit\n"
+"PO-Revision-Date: 2015-03-24 14:08+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Last-Translator: Reiner Mayers\n"
+"Language-Team: \n"
+"Language: de\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: cpgui_cycle2.py:43
+msgid "Evaporator"
+msgstr "Verdampfer"
+
+#: cpgui_cycle2.py:47 cpgui_cycle2.py:56
+msgid "Temperature"
+msgstr "Temperatur"
+
+#: cpgui_cycle2.py:48
+msgid "Superheat"
+msgstr "Überhitzung"
+
+#: cpgui_cycle2.py:49 cpgui_cycle2.py:58
+msgid "Pressure drop"
+msgstr "Druckverlust"
+
+#: cpgui_cycle2.py:50
+msgid "Capacity"
+msgstr "Kälteleistung"
+
+#: cpgui_cycle2.py:52
+msgid "Condenser"
+msgstr "Verflüssiger"
+
+#: cpgui_cycle2.py:57
+msgid "Subcooling"
+msgstr "Unterkühlung"
+
+#: cpgui_cycle2.py:61
+msgid "Suction line SL / Discharge line DL"
+msgstr "Saugleitung SL / Druckleitung DL"
+
+#: cpgui_cycle2.py:65
+msgid "SL superheat"
+msgstr "SL Überhitzung"
+
+#: cpgui_cycle2.py:66
+msgid "SL Pressure drop"
+msgstr "SL Druckverlust"
+
+#: cpgui_cycle2.py:67
+msgid "DL Temperature loss"
+msgstr "DL Enthitzung"
+
+#: cpgui_cycle2.py:68
+msgid "DL Pressure drop"
+msgstr "DL Druckverlust"
+
+#: cpgui_cycle2.py:70
+msgid "Compressor"
+msgstr "Verdichter"
+
+#: cpgui_cycle2.py:74
+msgid "Isentropic efficiency"
+msgstr "Isentroper Gütegrad"
+
+#: cpgui_cycle2.py:76
+msgid "Internal heat exchanger"
+msgstr "Innerer Wärmeübertrager"
+
+#: cpgui_cycle2.py:81
+msgid "Gas pressure drop"
+msgstr "Druckverlust Gas"
+
+#: cpgui_cycle2.py:93
+msgid "End of SL / compressor intake"
+msgstr "Saugleitungsende / Verdichtereingang"
+
+#: cpgui_cycle2.py:94
+msgid "Isentropic compression"
+msgstr "Isentrope Verdichtung"
+
+#: cpgui_cycle2.py:95
+msgid "Real compression"
+msgstr "Reale Verdichtung"
+
+#: cpgui_cycle2.py:96
+msgid "Condenser inlet"
+msgstr "Verflüssiger Eingang"
+
+#: cpgui_cycle2.py:97
+msgid "Dewpoint inside condenser"
+msgstr "Taupunkt im Verflüssiger"
+
+#: cpgui_cycle2.py:98
+msgid "Average between 3'' and 4'"
+msgstr "Mittelwert 3'' und 4'"
+
+#: cpgui_cycle2.py:99
+msgid "Bubblepoint inside condenser"
+msgstr "Siedepunkt im Verflüssiger"
+
+#: cpgui_cycle2.py:100
+msgid "Exit condenser"
+msgstr "Verflüssigerausgang"
+
+#: cpgui_cycle2.py:101 cpgui_cycle2.py:106
+msgid "Exit Heat exchanger"
+msgstr "Ausgang Wärmeübertrager"
+
+#: cpgui_cycle2.py:102
+msgid "Evaporator entry"
+msgstr "Verdampfereingang"
+
+#: cpgui_cycle2.py:103
+msgid "Average between 6 and 7''"
+msgstr "Mittelwert 6 und 7''"
+
+#: cpgui_cycle2.py:104
+msgid "Dewpoint inside evaporator"
+msgstr "Taupunkt im Verdampfer"
+
+#: cpgui_cycle2.py:105
+msgid "Exit evaporator / Intake heat exchanger"
+msgstr "Verdampfer aus / Wärmeübertrager ein"
+
+#: cpgui_cycle2.py:110
+msgid "Cycle inputs"
+msgstr "Angaben zum Kreislauf"
+
+#: cpgui_cycle2.py:112
+msgid "Cycle outputs"
+msgstr "Berechnete Werte"
+
+#: cpgui_cycle2.py:120
+msgid " Calculate "
+msgstr "Berechnen"
+
+#: cpgui_cycle2.py:133
+msgid "Cycle information"
+msgstr "Angaben zum Kreislauf"
+
+#: cpgui_cycle2.py:135
+msgid "Statepoints"
+msgstr "Zustandspunkte"
+
+#: cpgui_cycle2.py:153
+msgid "Output table"
+msgstr "Tabelle mit Zustandspunkten"
+
+#: cpgui_cycle2.py:225
+msgid ""
+"Simple DX cycle statepoint Table for %s\n"
+"\n"
+msgstr ""
+"Tabelle mit Zustandspunkten für %s\n"
+"\n"
+
+#: cpgui_cycle2.py:226
+msgid " Point  |   t    |   p     |      v     |    h    |    s    |    x    | Description \n"
+msgstr " Punkt  |   t    |   p     |      v     |    h    |    s    |    x    | Beschreibung \n"
+
+#: cpgui_cycle2.py:437
+msgid ""
+"\n"
+"Power calculations                      | Key performance values\n"
+msgstr ""
+"\n"
+"Leistungsberechnung                     | Eckdaten \n"
+
+#: cpgui_cycle2.py:438
+msgid "Evaporator                 %8.2f kW  | Pressure ratio             %8.2f\n"
+msgstr "Verdampfer                 %8.2f kW  | Druckverhältnis               %8.2f \n"
+
+#: cpgui_cycle2.py:439
+msgid "Condenser                  %8.2f kW  | Pressure difference        %8.2f bar\n"
+msgstr "Verflüssiger               %8.2f kW  | Druckdifferenz                %8.2f bar\n"
+
+#: cpgui_cycle2.py:440
+msgid "Suction line               %8.2f kW  | Mass flow                  %8.6f g/s \n"
+msgstr "Saugleitung                %8.2f kW  | Massestrom                        %8.6f g/s \n"
+
+#: cpgui_cycle2.py:441
+msgid "Discharge line             %8.2f kW  | Volume flow (suction line) %8.4f m³/h \n"
+msgstr "Heißgasleitung             %8.2f kW  | Volumenstrom Saugleitung        %8.4f m³/h \n"
+
+#: cpgui_cycle2.py:442
+msgid "Compressor                 %8.2f kW  | Volumetric capacity        %8.2f kJ/m³ \n"
+msgstr "Verdichter                 %8.2f kW  | Volumetrische Kälteleistung   %8.2f kJ/m³ \n"
+
+#: cpgui_cycle2.py:443
+msgid "Internal hx                %8.2f kW  | COP                        %8.2f \n"
+msgstr "Innerer Wärmeübertrager    %8.2f kW  | COP                           %8.2f \n"

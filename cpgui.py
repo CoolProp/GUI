@@ -22,6 +22,7 @@ else :
     from cpgui_sattable import cpgSatTable
     from cpgui_cycle1 import cpg_cycle1
     from cpgui_cycle2 import cpg_cycle2
+    from cpgui_cycle3 import cpg_cycle3
     
     class CPGUI(Frame):
         
@@ -125,6 +126,7 @@ else :
                 self.nb4_text=_('Diagrams')
                 self.nb5_text=_('SimpleCycle')
                 self.nb6_text=_('Cycle with heat exchanger')
+                self.nb7_text=_('CO2 Cycle 2 ')
                 #
                 if cpgui_config['debug']['ShowPanel'] :
                     self.notebook.add(self.debugframe,text=self.nbdbg_text)
@@ -158,6 +160,10 @@ else :
     
                 self.notebook.add(self.dialogframe6,text=self.nb6_text)
                 self.cpgNewClass=cpg_cycle2(self.dialogframe6,self)
+
+                self.notebook.add(self.dialogframe7,text=self.nb7_text)
+                self.cpgNewClass=cpg_cycle3(self.dialogframe7,self)
+                
                 '''
                 How to add a tab :
                 Copy a class file like cpgui_SatTable.py to a new name

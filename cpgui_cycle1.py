@@ -18,7 +18,7 @@ from scipy.optimize import bisect
 
 class cpg_cycle1(myDialog):
     
-    def __init__(self, GridFrame,Caller,Debug=False):
+    def __init__(self, CycleFrame,Caller,Debug=False):
         #
         self.initcomplete=False
         #
@@ -33,7 +33,19 @@ class cpg_cycle1(myDialog):
         self.Debug=Debug
         #
         # add all input variables to the following list 
-        self.VarVal         ={'t0':273.15,'dt0h':10,'dp0':10000,'Q0':1000,'tc':273.15+45,'dtu':5,'dpc':10000,'sl_dth':10,'sl_dp':10000,'dl_dtu':18,'dl_dp':10000,'comp_eta':0.6}
+        self.VarVal         ={'t0':273.15,
+                              'dt0h':10,
+                              'dp0':10000,
+                              'Q0':1000,
+                              'tc':273.15+45,
+                              'dtu':5,
+                              'dpc':10000,
+                              'sl_dth':10,
+                              'sl_dp':10000,
+                              'dl_dtu':18,
+                              'dl_dp':10000,
+                              'comp_eta':0.6}
+        #
         # create data structure like below to generate input form
         self.InputPanels    ={'Evaporator':{'Title':_('Evaporator'),
                                             'row':1,                                                # row of Evaporator Frame in InputFrame
@@ -70,8 +82,6 @@ class cpg_cycle1(myDialog):
                                            },
                               }
         #
-        self.dialogframe=GridFrame
-        #
         self.Caller=Caller
         self.ref=Caller.get_ref()
         #
@@ -94,9 +104,9 @@ class cpg_cycle1(myDialog):
                        'order'   :('1','2s','2','3','3dew','3dewm4bub','4bub','4','5','5m6dew','6dew','6'),
                        }    
         # Frames for input and output
-        self.InputFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text=_('Cycle inputs'),font=("Arial", 10, "bold"))
+        self.InputFrame= LabelFrame(CycleFrame,relief=GROOVE,bd=self.frameborder,text=_('Cycle inputs'),font=("Arial", 10, "bold"))
         self.InputFrame.grid(row=1,column=1,padx=8,pady=5,sticky=W)
-        self.OutputFrame= LabelFrame(self.dialogframe,relief=GROOVE,bd=self.frameborder,text=_('Cycle outputs'),font=("Arial", 10,"bold"))
+        self.OutputFrame= LabelFrame(CycleFrame,relief=GROOVE,bd=self.frameborder,text=_('Cycle outputs'),font=("Arial", 10,"bold"))
         self.OutputFrame.grid(row=3,column=1,padx=8,pady=5,sticky=EW,rowspan=10,columnspan=3)
         #
         # create Inputs form
@@ -153,10 +163,10 @@ class cpg_cycle1(myDialog):
         self.out_nb.bind_all("<<NotebookTabChanged>>", self.tabChangedEvent)
         self.initcomplete=True
     
-    def GridInputPanel(self,GridFrame,PanelKey,Debug=False,tfont=("Arial", 10, "bold"),font=("Arial", 10)):
+    def GridInputPanel(self,GridInputFrame,PanelKey,Debug=False,tfont=("Arial", 10, "bold"),font=("Arial", 10)):
         #
         LineList=self.InputPanels[PanelKey]['order']
-        GIPanel=LabelFrame(GridFrame,relief=GROOVE,bd=5,text=self.InputPanels[PanelKey]['Title'])
+        GIPanel=LabelFrame(GridInputFrame,relief=GROOVE,bd=5,text=self.InputPanels[PanelKey]['Title'])
         GIPanel.grid(row=self.InputPanels[PanelKey]['row'],column=self.InputPanels[PanelKey]['col'],padx=8,pady=5,sticky=W)
         #
         i=1
