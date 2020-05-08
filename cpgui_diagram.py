@@ -8,7 +8,7 @@ import sys
 from tkinter import *
 from tkinter import ttk
 
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.backend_bases import key_press_handler
 import matplotlib.ticker as mplticker
 from matplotlib.figure import Figure
